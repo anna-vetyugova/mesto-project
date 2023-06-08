@@ -1,8 +1,9 @@
 .header__logo {
   display: block;
-  max-width: 142px;
-  max-height: 33px;
+  width: 142px;
+  height: 33px;
   margin: 45px 0 40px 0;
+  object-fit: cover;
 }
 @media screen and (max-width: 1023px) {
   .header__logo {
@@ -11,7 +12,7 @@
 }
 @media screen and (max-width: 425px) {
   .header__logo {
-    max-width: 103px;
-    max-height: 24px;
+    width: 103px;
+    height: 24px;
   }
 }

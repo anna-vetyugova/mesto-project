@@ -1,14 +1,20 @@
-# Project: Mesto
+# Проект: Место
 
-### About project
+### О Проекте
 
-This project was developed by using different functionalities, such as:
-* grid layout
-* flexbox
-* positioning
-* media
+Проект Место был разарботан с использованием следущих инструментов, которые позволи реализовать адаптивную верстку:
+- гриды
+- флекс-контейнеры
+- позиционирование
+- медизапросы
 
-All used techniques provided project with adaptive layout. 
+Проект состоит из следующих секций:
+- "заголовок" с логотипом сервиса;
+- основной контекст:
+  - блок с информацией о пользователе, включащий фото, имя и описание;
+  - блок с карточками, содержщими фото и подпись различных мест страны;
+- "подвал" с подписью;
+- модальное окно для редактирования информации о пользователе. 
 
 [**Figma**](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 

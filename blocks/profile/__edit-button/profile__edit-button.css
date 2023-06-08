@@ -3,17 +3,19 @@
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
-  min-width: 24px;
-  min-height: 24px;
+  background-size: 10px 10px;
+  width: 24px;
+  height: 24px;
   align-self: flex-end;
   border: 1px solid #fff;
   box-sizing: border-box;
   margin-bottom: 10px;
   padding: 0;
+  cursor: pointer;
+  transition: opacity 0.1s ease 0.1s;
 }
 .profile__edit-button:hover {
   opacity: .6;
-  cursor: pointer;
 }
 @media screen and (max-width: 767px) {
   .profile__edit-button {
@@ -24,8 +26,9 @@
 }
 @media screen and (max-width: 424px) {
   .profile__edit-button {
-    min-width: 18px;
-    min-height: 18px;
+    width: 18px;
+    height: 18px;
+    background-size: 7.5px 7.5px;
   }
 }
 

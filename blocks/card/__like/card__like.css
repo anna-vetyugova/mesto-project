@@ -1,14 +1,16 @@
-.elements__like {
+.card__like {
   background-image: url(../../../images/__heart-disabled.svg);
   background-repeat: no-repeat;
   background-position: center;
-  min-width: 22px;
-  min-height: 19px;
+  background-size: cover;
+  width: 22px;
+  height: 19px;
   border: none;
   background-color: transparent;
   padding: 0;
-}
-.elements__like:hover {
   cursor: pointer;
+  transition: opacity 0.1s ease 0.1s;
+}
+.card__like:hover {
   opacity: .5
 }

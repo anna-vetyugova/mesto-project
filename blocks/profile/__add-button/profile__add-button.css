@@ -3,21 +3,24 @@
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
-  min-width: 150px;
-  min-height: 50px;
+  background-size: 22px 22px;
+  width: 150px;
+  height: 50px;
   align-self: center;
   margin-left: auto;
   border: 2px solid #FFFFFF;
   border-radius: 2px;
   padding: 0;
+  cursor: pointer;
+  transition: opacity 0.1s ease 0.1s;
 }
 .profile__add-button:hover {
   opacity: .6;
-  cursor: pointer;
 }
 @media screen and (max-width: 767px) {
   .profile__add-button {
-    min-width: 282px;
-    margin: 36px 0 36px 0;
+    background-size: 16px 16px;
+    width: 282px;
+    margin: 36px 0 0 0;
   }
 }
