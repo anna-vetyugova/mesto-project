@@ -22,11 +22,8 @@ function openPopup(modalType) {
   if (modalType.classList.contains('popup_profile_edit')) {
     nameInput.setAttribute('value', profileName.textContent);
     jobInput.setAttribute('value',profileJob.textContent);
-  }
-  if (modalType.classList.contains('popup_place_add')) {
-    namePlace.setAttribute('value', '999');
-    placeLink.setAttribute('value', '999');
-  }
+  };
+
   let closeButton = page.querySelector('div.popup_opened .popup__close-icon');
   closeButton.addEventListener('click', closePopup);
 };
@@ -46,7 +43,6 @@ function handleFormSubmit(evt) {
     closePopup();
 };
 formElementEdit.addEventListener('submit', handleFormSubmit); 
-
 
 const initialCards = [
   {
