@@ -95,7 +95,6 @@ const formElementAdd = popupAdd.querySelector('.popup__form');
 function handleFormAddSubmit(evt) {
     evt.preventDefault(); 
     let newCard = new Object();
-
     newCard.name = namePlace.value;
     newCard.link = placeLink.value;
     let newCardArray = [];
@@ -112,10 +111,8 @@ like.forEach(element => element.addEventListener("click", event => {
   let likeIndex = Array.prototype.indexOf.call(like, event.target);
   if (like[likeIndex].classList.contains('card__like_active')) {
     like[likeIndex].classList.remove('card__like_active');
-    console.log('hi');
   }
   else {
-    console.log('hello');
     like[likeIndex].classList.add('card__like_active');
   }
 }, false));
@@ -127,4 +124,23 @@ deleteIcon.forEach(element => element.addEventListener("click", event => {
   let deleteCardIndex = Array.prototype.indexOf.call(deleteIcon, event.target);
   cards[deleteCardIndex].remove();
 }, false));
+
+const cardPhoto = elements.querySelectorAll('.card__photo');
+cardPhoto.forEach(element => element.addEventListener("click", event => {
+  event.preventDefault();
+  let cardIndex = Array.prototype.indexOf.call(cardPhoto, event.target);
+  let cardList = page.querySelectorAll('.card__photo');
+  cardLink = cardList[cardIndex].getAttribute('src');
+  cardName = cardList[cardIndex].getAttribute('alt');
+
+  const photoPopup = `<div class="popup__container">
+                        <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
+                        <figure>
+                          <img src="${cardLink}" alt="${cardName}">
+                          <figcaption>${cardName}</figcaption>
+                        </figure>
+                      </div>`;
+
+}, false));
+
 
