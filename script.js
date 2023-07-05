@@ -71,7 +71,10 @@ const initialCards = [
   }
 ];
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 function updateCards(placePosition, cardsArray) {
 let cardList = page.querySelector('.elements__photo-grid');
 for(i=0; i < cardsArray.length; i++) {
@@ -79,6 +82,10 @@ for(i=0; i < cardsArray.length; i++) {
   cardName = cardsArray[i].name;
   const cardTemplate = `<li>
                           <article class="card">
+<<<<<<< HEAD
+=======
+                            <img class="card__trash" src="./images/__trash.svg" alt="Иконка для удаления карточки">
+>>>>>>> develop
                             <img class="card__photo" src="${cardLink}" alt="${cardName}">
                             <div class="card__title">
                               <h2 class="card__text">${cardName}</h2>
@@ -95,7 +102,10 @@ const formElementAdd = popupAdd.querySelector('.popup__form');
 function handleFormAddSubmit(evt) {
     evt.preventDefault(); 
     let newCard = new Object();
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
     newCard.name = namePlace.value;
     newCard.link = placeLink.value;
     let newCardArray = [];
@@ -104,3 +114,47 @@ function handleFormAddSubmit(evt) {
     closePopup();
 };
 formElementAdd.addEventListener('submit', handleFormAddSubmit); 
+<<<<<<< HEAD
+=======
+
+const elements = document.querySelector('.elements');
+const like = elements.querySelectorAll('.card__like');
+like.forEach(element => element.addEventListener("click", event => {
+  event.preventDefault();
+  let likeIndex = Array.prototype.indexOf.call(like, event.target);
+  if (like[likeIndex].classList.contains('card__like_active')) {
+    like[likeIndex].classList.remove('card__like_active');
+  }
+  else {
+    like[likeIndex].classList.add('card__like_active');
+  }
+}, false));
+
+const deleteIcon = elements.querySelectorAll('.card__trash');
+let cards = page.querySelectorAll('li')
+deleteIcon.forEach(element => element.addEventListener("click", event => {
+  event.preventDefault();
+  let deleteCardIndex = Array.prototype.indexOf.call(deleteIcon, event.target);
+  cards[deleteCardIndex].remove();
+}, false));
+
+const cardPhoto = elements.querySelectorAll('.card__photo');
+cardPhoto.forEach(element => element.addEventListener("click", event => {
+  event.preventDefault();
+  let cardIndex = Array.prototype.indexOf.call(cardPhoto, event.target);
+  let cardList = page.querySelectorAll('.card__photo');
+  cardLink = cardList[cardIndex].getAttribute('src');
+  cardName = cardList[cardIndex].getAttribute('alt');
+
+  const photoPopup = `<div class="popup__container">
+                        <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
+                        <figure>
+                          <img src="${cardLink}" alt="${cardName}">
+                          <figcaption>${cardName}</figcaption>
+                        </figure>
+                      </div>`;
+
+}, false));
+
+
+>>>>>>> develop
