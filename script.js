@@ -71,10 +71,6 @@ const initialCards = [
   }
 ];
 
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 function updateCards(placePosition, cardsArray) {
 let cardList = page.querySelector('.elements__photo-grid');
 for(i=0; i < cardsArray.length; i++) {
@@ -82,10 +78,7 @@ for(i=0; i < cardsArray.length; i++) {
   cardName = cardsArray[i].name;
   const cardTemplate = `<li>
                           <article class="card">
-<<<<<<< HEAD
-=======
                             <img class="card__trash" src="./images/__trash.svg" alt="Иконка для удаления карточки">
->>>>>>> develop
                             <img class="card__photo" src="${cardLink}" alt="${cardName}">
                             <div class="card__title">
                               <h2 class="card__text">${cardName}</h2>
@@ -102,10 +95,6 @@ const formElementAdd = popupAdd.querySelector('.popup__form');
 function handleFormAddSubmit(evt) {
     evt.preventDefault(); 
     let newCard = new Object();
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
     newCard.name = namePlace.value;
     newCard.link = placeLink.value;
     let newCardArray = [];
