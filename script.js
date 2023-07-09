@@ -114,8 +114,6 @@ function handleFormAddSubmit(evt) {
     closePopup();
 };
 formElementAdd.addEventListener('submit', handleFormAddSubmit); 
-<<<<<<< HEAD
-=======
 
 const elements = document.querySelector('.elements');
 const like = elements.querySelectorAll('.card__like');
@@ -157,4 +155,3 @@ cardPhoto.forEach(element => element.addEventListener("click", event => {
 }, false));
 
 
->>>>>>> develop
