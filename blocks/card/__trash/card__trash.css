@@ -2,10 +2,17 @@
   position: absolute;
   width: 18px;
   height: 19px;
-  cursor: pointer;
-  transition: opacity 0.1s ease 0.1s;
   top: 20px;
   right: 20px;
+  background-image: url(../../../images/__trash.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.1s ease 0.1s;
 }
 .card__trash:hover {
   opacity: .6

@@ -24,12 +24,7 @@
       <button type="button" name="addButton" class="profile__add-button" aria-label="Кнопка добавления новой локации"></button>
     </section>
     <section class="elements" aria-label="Секция с карточками разных мест страны">
-<<<<<<< HEAD
-      <ul class="elements__photo-grid">
-      </ul>
-=======
       <ul class="elements__photo-grid"></ul>
->>>>>>> develop
     </section>
   </main>
   <footer class="footer">
@@ -51,30 +46,35 @@
       <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="popupForm">
-<<<<<<< HEAD
-        <input type="text" class="popup__form-field popup__form-field_palce_name" name="placeName" placeholder="Название">
-        <input type="text" class="popup__form-field popup__form-field_place_link" name="placeLink" placeholder="Ссылка на картинку">
-=======
         <input type="text" class="popup__form-field popup__form-field_palce_name" name="firstname" placeholder="Название">
         <input type="text" class="popup__form-field popup__form-field_place_link" name="description" placeholder="Ссылка на карточку">
->>>>>>> develop
         <button type="submit" name="saveButton" class="popup__form-button">Сохранить</button>
       </form>
     </div>
   </div>
-<<<<<<< HEAD
+
   <script src="./script.js"></script>
-=======
-  <div class="popup popup_show_card popup_opened">
+  <div class="popup popup_show_card">
     <div class="popup__container">
       <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
-      <figure>
-        <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Архыз">
-        <figcaption>Архыз</figcaption>
+      <figure class="popup__figure">
+        <img class="popup__image" src="" alt="">
+        <figcaption class="popup__caption"></figcaption>
       </figure>
     </div>
   </div>
+  <template id="card">
+    <li class="card">
+      <article class="card__item">
+        <button type="button" name="deleteButton" aria-label="Кнопка удаления" class="card__trash"></button>
+        <img class="card__photo" src="" alt="">
+        <div class="card__title">
+          <h2 class="card__text"></h2>
+          <button type="button" name="likeButton" aria-label="Кнопка проставления лайка" class="card__like"></button>
+        </div>
+      </article>
+    </li>
+  </template>
 |<script src="./script.js"></script>
->>>>>>> develop
 </body>
 </html>
