@@ -41,24 +41,22 @@
       </form>
     </div>
   </div>
-  <div class="popup popup_place_add">
+  <div class="popup popup_card_add">
     <div class="popup__container">
       <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form" name="popupForm">
-        <input type="text" class="popup__form-field popup__form-field_palce_name" name="firstname" placeholder="Название">
-        <input type="text" class="popup__form-field popup__form-field_place_link" name="description" placeholder="Ссылка на карточку">
+        <input type="text" class="popup__form-field popup__form-field_place_name" name="placeName" placeholder="Название">
+        <input type="text" class="popup__form-field popup__form-field_place_link" name="placeLink" placeholder="Ссылка на карточку">
         <button type="submit" name="saveButton" class="popup__form-button">Сохранить</button>
       </form>
     </div>
   </div>
-
-  <script src="./script.js"></script>
-  <div class="popup popup_show_card">
-    <div class="popup__container">
+  <div class="popup popup_card_show">
+    <div class="popup__container popup__container_opened">
       <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
       <figure class="popup__figure">
-        <img class="popup__image" src="" alt="">
+        <img class="popup__image popup__image_opened" src="" alt="">
         <figcaption class="popup__caption"></figcaption>
       </figure>
     </div>
