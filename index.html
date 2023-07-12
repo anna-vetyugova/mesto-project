@@ -52,15 +52,27 @@
       </form>
     </div>
   </div>
-  <div class="popup popup_show_card popup_opened">
+  <div class="popup popup_show_card">
     <div class="popup__container">
       <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
-      <figure>
-        <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Архыз">
-        <figcaption>Архыз</figcaption>
+      <figure class="popup__figure">
+        <img class="popup__image" src="" alt="">
+        <figcaption class="popup__caption"></figcaption>
       </figure>
     </div>
   </div>
+  <template id="card">
+    <li class="card">
+      <article class="card__item">
+        <button type="button" name="deleteButton" aria-label="Кнопка удаления" class="card__trash"></button>
+        <img class="card__photo" src="" alt="">
+        <div class="card__title">
+          <h2 class="card__text"></h2>
+          <button type="button" name="likeButton" aria-label="Кнопка проставления лайка" class="card__like"></button>
+        </div>
+      </article>
+    </li>
+  </template>
 |<script src="./script.js"></script>
 </body>
 </html>

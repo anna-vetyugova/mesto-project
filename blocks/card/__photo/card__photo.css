@@ -4,5 +4,6 @@
   width: 282px;
   height: 282px;
   object-fit: cover;
+  object-position: top;
   cursor: pointer;
 }
