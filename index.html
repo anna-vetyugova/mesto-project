@@ -15,7 +15,8 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img class="profile__avatar" src="./images/__avatar.jpg" alt="Аватар пользователя">
+      <!-- <img class="profile__avatar" src="./images/__avatar.jpg" alt="Аватар пользователя"> -->
+      <div class="profile__avatar"></div>
       <div class="profile__avatar-info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button type="button" name="editButton" class="profile__edit-button" aria-label="Кнопка редактирования информации о пользователе"></button>
@@ -59,6 +60,16 @@
         <img class="popup__image popup__image_opened" src="#" alt="Здесь будет описание к карточке">
         <figcaption class="popup__caption"></figcaption>
       </figure>
+    </div>
+  </div>
+  <div class="popup popup_avatar_update">
+    <div class="popup__container">
+      <button type="button" name="closeButton" class="popup__close-icon" aria-label="Кнопка закрытия модального окна"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form class="popup__form" name="popupForm">
+        <input type="text" class="popup__form-field popup__form-field_avatar_link" name="avatarLink" placeholder="Ссылка на новый аватар">
+        <button type="submit" name="saveButton" class="popup__form-button">Сохранить</button>
+      </form>
     </div>
   </div>
   <template id="card">
