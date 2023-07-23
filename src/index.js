@@ -122,7 +122,7 @@ function getModalType(){
 };
 /* закрытие модального окна по нажатию на клавишу Esc и оверлей*/
 page.addEventListener('keydown', function(evt) {
-  if (evt.key === 'Escape' && evt.target.classList.contains('popup_opened')) {
+  if (evt.key === 'Escape' && page.querySelector('.popup_opened')) { 
     const result = getModalType();
     closePopup(result);
   };
@@ -143,3 +143,49 @@ closePopupButtons.forEach((evt) => {
 initialCards.forEach((item) => {
   addCard(item.name, item.link, 'append');
 });
+
+
+/*---------------------Спринт 4 ------------------------------------------------------------------------*/
+/*работа с формами*/
+
+
+
+function showInputError(formElement, formInput, errorMessage){
+  const errorElement = formElement.querySelector(`.${formInput.id}_error`); // находим элемент span
+  formInput.classList.add('popup__form-field_error'); // добавляем подчеркивание для input
+  console.log(errorElement);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__form-field_error_active');
+};
+function hideInputError(formElement, formInput){
+  const errorElement = formElement.querySelector(`.${formInput.id}_error`);
+  formInput.classList.remove('popup__form-field_input_error'); // убираем подчеркивание для input
+  errorElement.classList.remove('popup__form-field_error_active');
+  errorElement.textContent = '';
+};
+function isValid(formElement, fromInput){
+  if(!fromInput.validity.valid) {
+    showInputError(formElement, fromInput, fromInput.validationMessage);
+  }
+  else {
+    hideInputError(formElement, fromInput);
+  }
+};
+function setEventListeners(formElement){
+  const formInputs = Array.from(document.querySelectorAll('.popup__form-field'));
+  formInputs.forEach((formInput) => {
+    formInput.addEventListener('input', () => {
+      isValid(formElement, formInput);  
+    });  
+  });
+};
+// получаем все формы и добавляем слушателей на их input's
+function enableValidation(){
+  const formElements = Array.from(document.querySelectorAll('.popup__form'));
+  formElements.forEach((formElement) => {
+    setEventListeners(formElement);
+  });
+};
+enableValidation();
+
+/*---------------------Спринт 4 Конец----------------------------------------------------------------------*/
