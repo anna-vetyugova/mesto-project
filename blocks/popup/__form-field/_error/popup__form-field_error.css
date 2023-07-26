@@ -1,3 +1,4 @@
 .popup__form-field_error {
-  border-bottom: #ff0000;
+  border-bottom: 1px solid #F00;
+  margin-bottom: 0;
 }

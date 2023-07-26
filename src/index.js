@@ -38,6 +38,12 @@ function addInitialProfileValues(modalType){
 };
 function openPopup(modalType) {
   modalType.classList.add('popup_opened');
+  
+  const formInputs = Array.from(modalType.querySelectorAll('.popup__form-field'));
+  const buttonElement = modalType.querySelector('.popup__form-button');
+  if (buttonElement) {
+    changeButtonState(formInputs, buttonElement);
+  };
 };
 function closePopup(modalType) {
   modalType.classList.remove('popup_opened');
@@ -147,35 +153,55 @@ initialCards.forEach((item) => {
 
 /*---------------------Спринт 4 ------------------------------------------------------------------------*/
 /*работа с формами*/
-
-
-
 function showInputError(formElement, formInput, errorMessage){
   const errorElement = formElement.querySelector(`.${formInput.id}_error`); // находим элемент span
   formInput.classList.add('popup__form-field_error'); // добавляем подчеркивание для input
-  console.log(errorElement);
   errorElement.textContent = errorMessage;
   errorElement.classList.add('popup__form-field_error_active');
+
 };
 function hideInputError(formElement, formInput){
   const errorElement = formElement.querySelector(`.${formInput.id}_error`);
-  formInput.classList.remove('popup__form-field_input_error'); // убираем подчеркивание для input
-  errorElement.classList.remove('popup__form-field_error_active');
+  formInput.classList.remove('popup__form-field_error'); // убираем подчеркивание для input
+  errorElement.classList.remove('popup__form-field_error_active'); // убираем сообщение об ошибке
   errorElement.textContent = '';
 };
-function isValid(formElement, fromInput){
-  if(!fromInput.validity.valid) {
-    showInputError(formElement, fromInput, fromInput.validationMessage);
+function isValid(formElement, formInput){
+  if(formInput.validity.patternMismatch) {
+    formInput.setCustomValidity(formInput.dataset.errorMessage);
   }
   else {
-    hideInputError(formElement, fromInput);
+    formInput.setCustomValidity("");
+  }
+
+  if(!formInput.validity.valid) {
+    showInputError(formElement, formInput, formInput.validationMessage);
+  }
+  else {
+    hideInputError(formElement, formInput);
+  }
+};
+function changeButtonState(formInputs, buttonElement) {
+  const result = formInputs.some( (formInput) => formInput.validity.valid === false);
+  if (!result) {
+    buttonElement.removeAttribute("disabled");
+    buttonElement.classList.remove('popup__form-button_disabled');
+  }
+  else {
+    buttonElement.setAttribute("disabled", true);
+    buttonElement.classList.add('popup__form-button_disabled');
   }
 };
 function setEventListeners(formElement){
-  const formInputs = Array.from(document.querySelectorAll('.popup__form-field'));
+  const formInputs = Array.from(formElement.querySelectorAll('.popup__form-field'));
+  const buttonElement = formElement.querySelector('.popup__form-button');
+
   formInputs.forEach((formInput) => {
     formInput.addEventListener('input', () => {
       isValid(formElement, formInput);  
+      if (buttonElement) {
+        changeButtonState(formInputs, buttonElement);
+      };
     });  
   });
 };
@@ -187,5 +213,4 @@ function enableValidation(){
   });
 };
 enableValidation();
-
 /*---------------------Спринт 4 Конец----------------------------------------------------------------------*/
