@@ -1,7 +1,7 @@
 {
   "name": "mesto-project",
   "version": "1.0.0",
-  "description": "(Learnin java-script)",
+  "description": "Learning java-script",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
