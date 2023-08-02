@@ -22,4 +22,3 @@ export function submitFormAvatarUpdate(evt) {
   closePopup(popupAvatarUpdate);
   formAvatarUpdate.reset();
 };
-
