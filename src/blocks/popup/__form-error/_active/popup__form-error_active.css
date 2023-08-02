@@ -1,0 +1,5 @@
+.popup__form-error_active {
+  color: #F00;
+  font-size: 12px;
+  font-weight: 400;
+}

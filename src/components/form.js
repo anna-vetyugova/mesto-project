@@ -1,3 +1,8 @@
+import { page, popupProfileEdit, popupCardAdd, popupCardShow, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink, cardsList, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileAvatar, inactiveButtonClass } from './constants.js';
+import { addCard } from './card';
+import { closePopup } from './modal.js';
+import { setNewAvatar } from './utils.js';
+
 export function submitFormCardEdit(evt) {
   evt.preventDefault(); 
   profileName.textContent = newProfileName.value;
@@ -10,10 +15,6 @@ export function submitFormCardAdd(evt) {
   closePopup(popupCardAdd);
   formCardAdd.reset();
 };
-
-export function setNewAvatar(newAvatar){
-  profileAvatar.style.backgroundImage = "url("+newAvatar+")";
-};
 export function submitFormAvatarUpdate(evt) {
   evt.preventDefault(); 
   const newAvatarLink = evt.target.querySelector('.popup__form-field_avatar_link').value;
@@ -22,16 +23,3 @@ export function submitFormAvatarUpdate(evt) {
   formAvatarUpdate.reset();
 };
 
-export function setEventListeners(formElement){
-  const formInputs = Array.from(formElement.querySelectorAll('.popup__form-field'));
-  const buttonElement = formElement.querySelector('.popup__form-button');
-
-  formInputs.forEach((formInput) => {
-    formInput.addEventListener('input', () => {
-      isValid(formElement, formInput);  
-      if (buttonElement) {
-        changeButtonState(formInputs, buttonElement);
-      };
-    });  
-  });
-};

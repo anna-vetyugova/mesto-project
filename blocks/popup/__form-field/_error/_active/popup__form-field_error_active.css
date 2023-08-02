@@ -1,9 +1,0 @@
-.popup__form-field_error_active {
-  color: #F00;
-  font-size: 12px;
-  font-weight: 400;
-  margin-top: 5px;
-}
-.popup__form-field_error_active:last-of-type {
-  margin-bottom: 30px;
-}
