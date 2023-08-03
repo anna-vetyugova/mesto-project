@@ -1,4 +1,4 @@
-import { page, popupProfileEdit, popupCardAdd, popupCardShow, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink, cardsList, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileAvatar, inactiveButtonClass } from './constants.js';
+import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formCardAdd, formAvatarUpdate, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink } from './constants.js';
 import { addCard } from './card';
 import { closePopup } from './modal.js';
 import { setNewAvatar } from './utils.js';

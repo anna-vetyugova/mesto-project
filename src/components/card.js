@@ -1,4 +1,4 @@
-import { page, popupProfileEdit, popupCardAdd, popupCardShow, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink, cardsList, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileAvatar, inactiveButtonClass } from './constants.js';
+import { popupCardShow, cardsList, cardTemplate, popupCardShowImage, popupCardShowImageCaption } from './constants.js';
 import { openPopup } from './modal.js';
 
 export function createCard(title, imageLink) {

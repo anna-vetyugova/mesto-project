@@ -18,7 +18,7 @@ export function isValid(formElement, formInput, inputErrorClass, errorClass){
   }
   else {
     formInput.setCustomValidity("");
-  }
+  };
   if(!formInput.validity.valid) {
     showInputError(formElement, formInput, formInput.validationMessage, inputErrorClass, errorClass);
   }
@@ -28,7 +28,7 @@ export function isValid(formElement, formInput, inputErrorClass, errorClass){
 };
 
 export function changeButtonState(formInputs, buttonElement, inactiveButtonClass) {
-  const result = formInputs.some( (formInput) => formInput.validity.valid === false);
+  let result = formInputs.some( (formInput) => formInput.validity.valid === false);
   if (!result) {
     buttonElement.removeAttribute("disabled");
     buttonElement.classList.remove(inactiveButtonClass);
@@ -36,7 +36,7 @@ export function changeButtonState(formInputs, buttonElement, inactiveButtonClass
   else {
     buttonElement.setAttribute("disabled", true);
     buttonElement.classList.add(inactiveButtonClass);
-  }
+  };
 };
 
 export function setEventListeners(formElement, validationObject){
