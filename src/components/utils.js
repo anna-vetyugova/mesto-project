@@ -1,7 +1,7 @@
 
 import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
-import { hideInputError } from './validate.js';
+import { hideInputError, changeButtonState } from './validate.js';
 
 export function manageModal(event) {
   const modalType = page.querySelector('.popup_opened');
@@ -30,10 +30,7 @@ export function addInitialProfileValues(modalType){
   newProfileName.setAttribute('value', profileName.textContent);
   newProfileJob.setAttribute('value',profileJob.textContent);
   openPopup(modalType);
-  const modalTypeSubmitButton = modalType.querySelector(validationObject.submitButtonSelector);
-  if (modalTypeSubmitButton.hasAttribute('disabled')) {
-    modalTypeSubmitButton.setAttribute('disabled', false);
-    modalTypeSubmitButton.classList.remove(validationObject.inactiveButtonClass);
-  };
+  const formInputs = Array.from(modalType.querySelectorAll(validationObject.inputSelector));
+  changeButtonState(formInputs, modalType.querySelector(validationObject.submitButtonSelector), validationObject.inactiveButtonClass);
 };
 
