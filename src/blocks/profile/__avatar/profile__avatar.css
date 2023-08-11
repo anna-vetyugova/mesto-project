@@ -6,9 +6,9 @@
   object-fit: cover;
   display: block;
   cursor: pointer;
-  background-image: url(../../../images/__avatar.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
-  background-size: contain;
   position: relative;
 }
 .profile__avatar::after {

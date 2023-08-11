@@ -1,11 +1,10 @@
 import '../index.css';
-import { initialCards } from './constants.js';
-import { popupProfileEdit, popupCardAdd, popupCardShow, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, validationObject } from './constants.js';
-import { addCard } from './card.js';
+import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, validationObject } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
-import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate } from './form.js';
+import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate, renderLoading } from './form.js';
 import { enableValidation, changeButtonState } from './validate.js';
 import { addInitialProfileValues, resetFormFields } from './utils.js';
+import { getInitialsCards, getUserInfo } from './api';
 
 profileEditButton.addEventListener('click', () => addInitialProfileValues(popupProfileEdit));
 cardAddButton.addEventListener('click', () => {
@@ -30,8 +29,6 @@ closePopupButtons.forEach((evt) => {
   evt.addEventListener('click', (evt) => closePopup(modalType));
 });
 
-initialCards.forEach((item) => {
-  addCard(item.name, item.link, 'append');
-});
-
 enableValidation(validationObject);
+getUserInfo();
+getInitialsCards();

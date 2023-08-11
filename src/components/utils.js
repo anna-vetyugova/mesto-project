@@ -1,7 +1,9 @@
 
-import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject } from './constants.js';
+import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject, formEditProfile } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
 import { hideInputError, changeButtonState } from './validate.js';
+import { addLike, deleteLike } from './api.js';
+
 
 export function manageModal(event) {
   const modalType = page.querySelector('.popup_opened');
@@ -34,3 +36,25 @@ export function addInitialProfileValues(modalType){
   changeButtonState(formInputs, modalType.querySelector(validationObject.submitButtonSelector), validationObject.inactiveButtonClass);
 };
 
+export function setUserInfo(userName, userDescription){
+  profileName.textContent = userName;
+  profileJob.textContent = userDescription;
+};
+
+export function renderLoading(isLoading, formElement){
+  if(isLoading) {
+    formElement.querySelector(validationObject.submitButtonSelector).textContent = 'Сохранение...'
+  }
+  else {
+    formElement.querySelector(validationObject.submitButtonSelector).textContent = 'Сохранить'
+  }
+};
+
+export function manageLikeButton(cardId, likeButton, itemLikes) {
+  if (likeButton.classList.contains('card__like_active')) {
+    deleteLike(cardId, likeButton, itemLikes);
+  }
+  else {
+    addLike(cardId, likeButton, itemLikes);
+  }
+};

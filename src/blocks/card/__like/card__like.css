@@ -2,7 +2,7 @@
   background-image: url(../../../images/__heart-disabled.svg);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   width: 22px;
   height: 19px;
   border: none;

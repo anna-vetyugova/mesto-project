@@ -1,23 +1,25 @@
-import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formCardAdd, formAvatarUpdate, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink } from './constants.js';
-import { addCard } from './card';
+import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formCardAdd, formAvatarUpdate, newProfileName, newProfileJob, placeName, placeLink, cohortId } from './constants.js';
 import { closePopup } from './modal.js';
-import { setNewAvatar } from './utils.js';
+import { setNewAvatar, renderLoading } from './utils.js';
+import { updateUserInfo, updateAvatar, addCard } from './api.js';
 
 export function submitFormCardEdit(evt) {
   evt.preventDefault(); 
-  profileName.textContent = newProfileName.value;
-  profileJob.textContent = newProfileJob.value;
+  updateUserInfo();
   closePopup(popupProfileEdit);
 };
 export function submitFormCardAdd(evt) {
   evt.preventDefault(); 
-  addCard(placeName.value, placeLink.value, 'prepend');
+  renderLoading(true, formCardAdd);
+  addCard(placeName.value, placeLink.value);
   closePopup(popupCardAdd);
   formCardAdd.reset();
 };
 export function submitFormAvatarUpdate(evt) {
   evt.preventDefault(); 
   const newAvatarLink = evt.target.querySelector('.popup__form-field_avatar_link').value;
+  renderLoading(true, formAvatarUpdate);
+  updateAvatar(newAvatarLink);
   setNewAvatar(newAvatarLink);
   closePopup(popupAvatarUpdate);
   formAvatarUpdate.reset();
