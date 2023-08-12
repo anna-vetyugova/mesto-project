@@ -1,17 +1,39 @@
-import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formCardAdd, formAvatarUpdate, newProfileName, newProfileJob, placeName, placeLink, cohortId } from './constants.js';
+import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formCardAdd, formAvatarUpdate, newProfileName, newProfileJob, placeName, placeLink, profileName, profileJob, formEditProfile, cardsList } from './constants.js';
 import { closePopup } from './modal.js';
 import { setNewAvatar, renderLoading } from './utils.js';
 import { updateUserInfo, updateAvatar, addCard } from './api.js';
+import { createCard } from './card.js';
 
 export function submitFormCardEdit(evt) {
   evt.preventDefault(); 
-  updateUserInfo();
+  updateUserInfo()
+    .then((res) => {
+      profileName.textContent = newProfileName.value;
+      profileJob.textContent = newProfileJob.value;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, formEditProfile);
+    });
   closePopup(popupProfileEdit);
 };
 export function submitFormCardAdd(evt) {
   evt.preventDefault(); 
   renderLoading(true, formCardAdd);
-  addCard(placeName.value, placeLink.value);
+  addCard(placeName.value, placeLink.value)
+    .then((data) => {
+      const userId = profileName.getAttribute('user-id');
+      const card = createCard(data.name, data.link, 0, userId, data._id);
+      cardsList.prepend(card);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, formCardAdd);
+    });
   closePopup(popupCardAdd);
   formCardAdd.reset();
 };

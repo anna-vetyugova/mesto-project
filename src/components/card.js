@@ -1,7 +1,7 @@
 import { popupCardShow, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileName, popupCardDelete, confirmButton } from './constants.js';
 import { openPopup } from './modal.js';
 import { deleteCard } from './api.js';
-import { manageLikeButton } from './utils.js'; 
+import { manageLikeButton, renderLoading } from './utils.js'; 
 
 export function createCard(title, imageLink, itemLikes, userId, cardId) {
   const cardTemplateNew = cardTemplate.querySelector('.card').cloneNode(true);
@@ -41,7 +41,9 @@ export function createCard(title, imageLink, itemLikes, userId, cardId) {
     cardTemplateNew.querySelector('.card__trash').addEventListener('click', evt => {
       const cardItem = evt.target.closest('li');
       openPopup(popupCardDelete);
+      renderLoading(false, popupCardDelete);
       confirmButton.addEventListener('click', (evt) => {
+        renderLoading(true, popupCardDelete);
         deleteCard(cardTemplatePhoto.getAttribute('user-id'), cardItem);
       }, { once: true });
     });

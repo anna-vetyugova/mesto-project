@@ -1,10 +1,11 @@
 import '../index.css';
-import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, validationObject } from './constants.js';
+import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, cardsList, validationObject } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
-import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate, renderLoading } from './form.js';
+import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate } from './form.js';
 import { enableValidation, changeButtonState } from './validate.js';
-import { addInitialProfileValues, resetFormFields } from './utils.js';
+import { addInitialProfileValues, resetFormFields, setUserInfo, setNewAvatar } from './utils.js';
 import { getInitialsCards, getUserInfo } from './api';
+import { createCard } from './card';
 
 profileEditButton.addEventListener('click', () => addInitialProfileValues(popupProfileEdit));
 cardAddButton.addEventListener('click', () => {
@@ -30,5 +31,23 @@ closePopupButtons.forEach((evt) => {
 });
 
 enableValidation(validationObject);
-getUserInfo();
-getInitialsCards();
+getUserInfo()
+  .then((data) => {
+    profileName.setAttribute('user-id', data._id);
+    setUserInfo(data.name, data.about);
+    setNewAvatar(data.avatar)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+getInitialsCards()
+  .then((res) => {
+    res.forEach((item) => {
+      const card = createCard(item.name, item.link, item.likes, item.owner._id, item._id);
+      cardsList.append(card);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

@@ -1,5 +1,5 @@
 
-import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject, formEditProfile } from './constants.js';
+import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
 import { hideInputError, changeButtonState } from './validate.js';
 import { addLike, deleteLike } from './api.js';
@@ -52,9 +52,31 @@ export function renderLoading(isLoading, formElement){
 
 export function manageLikeButton(cardId, likeButton, itemLikes) {
   if (likeButton.classList.contains('card__like_active')) {
-    deleteLike(cardId, likeButton, itemLikes);
+    deleteLike(cardId, likeButton, itemLikes)
+      .then((res) => {
+        likeButton.classList.remove('card__like_active');
+      })
+      .then((res) => {
+        itemLikes.textContent = parseInt(itemLikes.textContent)-1;
+        if(itemLikes.textContent === '0'){
+          itemLikes.classList.add('card__like-counter_hidden');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   else {
-    addLike(cardId, likeButton, itemLikes);
+    addLike(cardId, likeButton, itemLikes)
+      .then((res) => {
+        likeButton.classList.add('card__like_active');
+      })
+      .then((res) => {
+        itemLikes.textContent = parseInt(itemLikes.textContent)+1;
+        itemLikes.classList.remove('card__like-counter_hidden');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
