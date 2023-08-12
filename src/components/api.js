@@ -56,12 +56,6 @@ export const updateAvatar = (newAvatarLink) => {
   .then((res) => {
     return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
   })
-  .catch((err) => {
-    console.log(err);
-  })
-  .finally((res) => {
-    renderLoading(false, formAvatarUpdate);
-  });
 };
 export const addCard = (newCardName, newCardLink) => {
   return fetch(`${config.baseUrl}/cards`,{
@@ -85,13 +79,6 @@ export const deleteCard = (cardId, cardItem) => {
   })
   .then((res) => {
     return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-  })
-  .then((res) => {
-    closePopup(popupCardDelete);
-    cardItem.remove();
-  })
-  .catch((err) => {
-    console.log(err);
   });
 };
 export const addLike = (cardId, likeButton, itemLikes) => {

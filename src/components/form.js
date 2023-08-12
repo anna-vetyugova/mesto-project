@@ -41,7 +41,13 @@ export function submitFormAvatarUpdate(evt) {
   evt.preventDefault(); 
   const newAvatarLink = evt.target.querySelector('.popup__form-field_avatar_link').value;
   renderLoading(true, formAvatarUpdate);
-  updateAvatar(newAvatarLink);
+  updateAvatar(newAvatarLink)
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally((res) => {
+      renderLoading(false, formAvatarUpdate);
+    });
   setNewAvatar(newAvatarLink);
   closePopup(popupAvatarUpdate);
   formAvatarUpdate.reset();

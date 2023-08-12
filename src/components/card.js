@@ -44,7 +44,14 @@ export function createCard(title, imageLink, itemLikes, userId, cardId) {
       renderLoading(false, popupCardDelete);
       confirmButton.addEventListener('click', (evt) => {
         renderLoading(true, popupCardDelete);
-        deleteCard(cardTemplatePhoto.getAttribute('user-id'), cardItem);
+        deleteCard(cardTemplatePhoto.getAttribute('user-id'), cardItem)
+          .then((res) => {
+            closePopup(popupCardDelete);
+            cardItem.remove();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }, { once: true });
     });
   }
