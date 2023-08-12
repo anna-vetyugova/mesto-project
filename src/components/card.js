@@ -1,5 +1,5 @@
 import { popupCardShow, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileName, popupCardDelete, confirmButton } from './constants.js';
-import { openPopup } from './modal.js';
+import { openPopup, closePopup } from './modal.js';
 import { deleteCard } from './api.js';
 import { manageLikeButton, renderLoading } from './utils.js'; 
 
