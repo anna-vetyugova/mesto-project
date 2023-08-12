@@ -31,22 +31,20 @@ closePopupButtons.forEach((evt) => {
 });
 
 enableValidation(validationObject);
-getUserInfo()
-  .then((data) => {
-    profileName.setAttribute('user-id', data._id);
-    setUserInfo(data.name, data.about);
-    setNewAvatar(data.avatar)
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
-getInitialsCards()
-  .then((res) => {
-    res.forEach((item) => {
+const promises = [getUserInfo(), getInitialsCards()];
+Promise.all(promises)
+  .then((data) => {
+    profileName.setAttribute('user-id', data[0]._id);
+    setUserInfo(data[0].name, data[0].about);
+    setNewAvatar(data[0].avatar);
+    return data[1];
+  })
+  .then((data) => {
+    data.forEach((item) => {
       const card = createCard(item.name, item.link, item.likes, item.owner._id, item._id);
       cardsList.append(card);
-    });
+    })
   })
   .catch((err) => {
     console.log(err);
