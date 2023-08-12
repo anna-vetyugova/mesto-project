@@ -36,7 +36,7 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: './src/vendor/fonts/[name].[hash][ext]',
+          filename: './src/vendor/fonts/Inter/[name].[hash][ext]',
         }
       },
       {
