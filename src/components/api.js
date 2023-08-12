@@ -1,64 +1,54 @@
-import { cohortId, token, newProfileName, newProfileJob, formAvatarUpdate, formEditProfile, popupCardDelete } from './constants';
-import { renderLoading } from './utils';
-import { closePopup } from './modal';
+import { cohortId, token } from './constants';
+import { checkResponse } from './utils';
 
 const config = {
-  baseUrl: `https://nomoreparties.co/v1/${cohortId}`,
+  baseUrl: `https://nomoreparties.co/v1/${cohortId}/`,
   headers: {
     authorization: `${token}`,
     'Content-Type': 'application/json'
   }
 };
+export function request(endpoint, options) {
+  return fetch(`${config.baseUrl}${endpoint}`, options).then(checkResponse);
+}
+
 export const getInitialsCards = () => {
-  return fetch (`${config.baseUrl}/cards`,{
+  return request('cards', {
     method: 'GET',
     headers: {
       authorization: config.headers.authorization
     }
-  })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 export const getUserInfo = () => {
-  return fetch(`${config.baseUrl}/users/me`,{
+  return request('users/me',{
     method: 'GET',
     headers: {
       authorization: config.headers.authorization
     }
-  })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-  })
+  });
 };
-export const updateUserInfo = () => {
-  renderLoading(true, formEditProfile);
-  return fetch(`${config.baseUrl}/users/me`,{
+export const updateUserInfo = (newProfileName, newProfileJob) => {
+  return request('users/me',{
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
-      name: newProfileName.value,
-      about: newProfileJob.value
+      name: newProfileName,
+      about: newProfileJob
     })
-  })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
   })
 };
 export const updateAvatar = (newAvatarLink) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`,{
+  return request('users/me/avatar',{
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       avatar: newAvatarLink
     })
   })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-  })
 };
 export const addCard = (newCardName, newCardLink) => {
-  return fetch(`${config.baseUrl}/cards`,{
+  return request('cards',{
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -66,40 +56,28 @@ export const addCard = (newCardName, newCardLink) => {
       link: newCardLink
     })
   })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-  })
 };
-export const deleteCard = (cardId, cardItem) => {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+export const deleteCard = (cardId) => {
+  return request(`cards/${cardId}`, {
     method: 'DELETE',
     headers: {
       authorization: config.headers.authorization
     }
   })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-  });
 };
-export const addLike = (cardId, likeButton, itemLikes) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+export const addLike = (cardId) => {
+  return request(`cards/likes/${cardId}`, {
     method: 'PUT',
     headers: {
       authorization: config.headers.authorization
     }
   })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-  })
 };
-export const deleteLike = (cardId, likeButton, itemLikes) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+export const deleteLike = (cardId) => {
+  return request(`cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: {
       authorization: config.headers.authorization
     }
-  })
-  .then((res) => {
-    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
   })
 };

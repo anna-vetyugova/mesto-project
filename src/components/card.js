@@ -1,9 +1,37 @@
 import { popupCardShow, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileName, popupCardDelete, confirmButton } from './constants.js';
-import { openPopup, closePopup } from './modal.js';
-import { deleteCard } from './api.js';
-import { manageLikeButton, renderLoading } from './utils.js'; 
+import { openPopup } from './modal.js';
+import { deleteLike, addLike } from './api.js'
 
-export function createCard(title, imageLink, itemLikes, userId, cardId) {
+export function manageLikeButton(cardId, likeButton, itemLikes) {
+  if (likeButton.classList.contains('card__like_active')) {
+    deleteLike(cardId, likeButton, itemLikes)
+      .then((res) => {
+        likeButton.classList.remove('card__like_active');
+        return res.likes.length;
+      })
+      .then((currentLikes) => {
+        itemLikes.textContent = currentLikes;
+        if(itemLikes.textContent === '0'){
+          itemLikes.classList.add('card__like-counter_hidden');
+        }
+      })
+      .catch(console.error)
+  }
+  else {
+    addLike(cardId, likeButton, itemLikes)
+      .then((res) => {
+        likeButton.classList.add('card__like_active');
+        return res.likes.length;
+      })
+      .then((currentLikes) => {
+        itemLikes.textContent = currentLikes;
+        itemLikes.classList.remove('card__like-counter_hidden');
+      })
+      .catch(console.error)
+  }
+};
+
+export function createCard(title, imageLink, itemLikes, ownerId, cardId) {
   const cardTemplateNew = cardTemplate.querySelector('.card').cloneNode(true);
   const cardTemplatePhoto = cardTemplateNew.querySelector('.card__photo');
   const cardTemplateText = cardTemplateNew.querySelector('.card__text');
@@ -13,14 +41,16 @@ export function createCard(title, imageLink, itemLikes, userId, cardId) {
 
   cardTemplatePhoto.src = imageLink;
   cardTemplatePhoto.alt = title;
-  cardTemplatePhoto.setAttribute('user-id', cardId);
+  cardTemplatePhoto.setAttribute('card-id', cardId);
+  const cardTemplatePhotoID = cardTemplatePhoto.getAttribute('card-id');
   cardTemplateText.textContent = title; 
   cardTemplateLikeCounter.textContent = itemLikes.length;
-  cardTemplateDeleteIcon.setAttribute('user-id', userId);
-  
+  cardTemplateDeleteIcon.setAttribute('owner-id', ownerId);
+  const profileUserId = profileName.getAttribute('user-id');
+
   if (itemLikes.length > 0) {
     itemLikes.forEach((item) => {
-      if (item._id === profileName.getAttribute('user-id')) {
+      if (item._id === profileUserId) {
         cardTemplateLikeButton.classList.add('card__like_active');
       }
     });
@@ -31,31 +61,18 @@ export function createCard(title, imageLink, itemLikes, userId, cardId) {
   }
 
   cardTemplateNew.querySelector('.card__like').addEventListener('click', evt => {
-    manageLikeButton(cardTemplatePhoto.getAttribute('user-id'), evt.target, cardTemplateLikeCounter);
+    manageLikeButton(cardTemplatePhotoID, evt.target, cardTemplateLikeCounter);
   });
 
-  if (userId != profileName.getAttribute('user-id')) {
-    cardTemplateNew.querySelector('.card__trash').classList.add('card__trash_hidden');
+  if (ownerId != profileUserId) {
+    cardTemplateDeleteIcon.classList.add('card__trash_hidden');
   }
   else {
-    cardTemplateNew.querySelector('.card__trash').addEventListener('click', evt => {
-      const cardItem = evt.target.closest('li');
+    cardTemplateDeleteIcon.addEventListener('click', () => {
       openPopup(popupCardDelete);
-      renderLoading(false, popupCardDelete);
-      confirmButton.addEventListener('click', (evt) => {
-        renderLoading(true, popupCardDelete);
-        deleteCard(cardTemplatePhoto.getAttribute('user-id'), cardItem)
-          .then((res) => {
-            closePopup(popupCardDelete);
-            cardItem.remove();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, { once: true });
+      confirmButton.setAttribute('card-id', cardId);
     });
   }
-
   cardTemplatePhoto.addEventListener('click', evt => {
     openPopup(popupCardShow);
     popupCardShowImage.src = evt.target.getAttribute('src');
@@ -64,3 +81,4 @@ export function createCard(title, imageLink, itemLikes, userId, cardId) {
   });
   return cardTemplateNew;
 };
+

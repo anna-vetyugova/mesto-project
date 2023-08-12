@@ -28,7 +28,7 @@ export function isValid(formElement, formInput, inputErrorClass, errorClass){
 };
 
 export function changeButtonState(formInputs, buttonElement, inactiveButtonClass) {
-  let result = formInputs.some( (formInput) => formInput.validity.valid === false);
+  const result = formInputs.some( (formInput) => formInput.validity.valid === false);
   if (!result) {
     buttonElement.removeAttribute("disabled");
     buttonElement.classList.remove(inactiveButtonClass);
@@ -42,17 +42,12 @@ export function changeButtonState(formInputs, buttonElement, inactiveButtonClass
 export function setEventListeners(formElement, validationObject){
   const formInputs = Array.from(formElement.querySelectorAll(validationObject.inputSelector));
   const buttonElement = formElement.querySelector(validationObject.submitButtonSelector);
+  changeButtonState(formInputs, buttonElement, validationObject.inactiveButtonClass);
   formInputs.forEach((formInput) => {
-    formInput.addEventListener('input', () => {
+    formInput.addEventListener('input', (evt) => {
       isValid(formElement, formInput, validationObject.inputErrorClass, validationObject.errorClass);  
       changeButtonState(formInputs, buttonElement, validationObject.inactiveButtonClass);
     }); 
-    formInput.addEventListener('keydown', (evt) => {
-      if (evt.key === 'Enter') {
-        isValid(formElement, formInput, validationObject.inputErrorClass, validationObject.errorClass);  
-        changeButtonState(formInputs, buttonElement, validationObject.inactiveButtonClass);
-      }
-    });  
   });
 };
 export function enableValidation(validationObject){

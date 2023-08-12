@@ -6,9 +6,9 @@ const popupCardShow = page.querySelector('.popup_card_show');
 const popupAvatarUpdate = page.querySelector('.popup_avatar_update');
 const popupCardDelete = page.querySelector('.popup_card_delete');
 
-const formEditProfile = popupProfileEdit.querySelector('.popup__form');
-const formCardAdd = popupCardAdd.querySelector('.popup__form');
-const formAvatarUpdate = popupAvatarUpdate.querySelector('.popup__form');
+const formEditProfile = document.forms["profileEditForm"];
+const formCardAdd = document.forms["cardAddForm"];
+const formAvatarUpdate = document.forms["avatarUpdateForm"];
 
 const profileEditButton = page.querySelector('.profile__edit-button');
 const cardAddButton = page.querySelector('.profile__add-button');

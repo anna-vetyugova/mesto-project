@@ -2,18 +2,16 @@
 import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
 import { hideInputError, changeButtonState } from './validate.js';
-import { addLike, deleteLike } from './api.js';
 
-
-export function manageModal(event) {
-  const modalType = page.querySelector('.popup_opened');
+export function handleEscape(event){
   if (event.key === 'Escape') {
+    const modalType = page.querySelector('.popup_opened');
     closePopup(modalType);
   };
-  if (event.type === 'click' && event.target.classList.contains('popup_opened')) {
-    closePopup(modalType); 
-  }
-};
+}
+export function handleOverlay(event){
+  closePopup(event.target); 
+}
 export function setNewAvatar(newAvatar){
   profileAvatar.style.backgroundImage = "url("+newAvatar+")";
 };
@@ -22,6 +20,8 @@ export function setNewAvatar(newAvatar){
 export function resetFormFields(modalType){
   const modalTypeForm = modalType.querySelector(validationObject.formSelector);
   modalTypeForm.reset();
+  const formInputs = Array.from(modalType.querySelectorAll(validationObject.inputSelector));
+  changeButtonState(formInputs, modalType.querySelector(validationObject.submitButtonSelector), validationObject.inactiveButtonClass);
   Array.from(modalTypeForm.querySelectorAll(validationObject.inputSelector)).forEach((formInput) => {
     formInput.setCustomValidity('');
     hideInputError(modalTypeForm, formInput, validationObject.inputErrorClass, validationObject.errorClass);
@@ -35,48 +35,18 @@ export function addInitialProfileValues(modalType){
   const formInputs = Array.from(modalType.querySelectorAll(validationObject.inputSelector));
   changeButtonState(formInputs, modalType.querySelector(validationObject.submitButtonSelector), validationObject.inactiveButtonClass);
 };
-
 export function setUserInfo(userName, userDescription){
   profileName.textContent = userName;
   profileJob.textContent = userDescription;
 };
-
-export function renderLoading(isLoading, formElement){
+export function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...'){
   if(isLoading) {
-    formElement.querySelector(validationObject.submitButtonSelector).textContent = 'Сохранение...'
+    button.textContent = loadingText;
   }
   else {
-    formElement.querySelector(validationObject.submitButtonSelector).textContent = 'Сохранить'
+    button.textContent = buttonText;
   }
 };
-
-export function manageLikeButton(cardId, likeButton, itemLikes) {
-  if (likeButton.classList.contains('card__like_active')) {
-    deleteLike(cardId, likeButton, itemLikes)
-      .then((res) => {
-        likeButton.classList.remove('card__like_active');
-      })
-      .then((res) => {
-        itemLikes.textContent = parseInt(itemLikes.textContent)-1;
-        if(itemLikes.textContent === '0'){
-          itemLikes.classList.add('card__like-counter_hidden');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  else {
-    addLike(cardId, likeButton, itemLikes)
-      .then((res) => {
-        likeButton.classList.add('card__like_active');
-      })
-      .then((res) => {
-        itemLikes.textContent = parseInt(itemLikes.textContent)+1;
-        itemLikes.classList.remove('card__like-counter_hidden');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-};
+export function checkResponse(res) {
+  return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+}
