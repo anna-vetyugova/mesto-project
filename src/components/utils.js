@@ -5,12 +5,14 @@ import { hideInputError, changeButtonState } from './validate.js';
 
 export function handleEscape(event){
   if (event.key === 'Escape') {
-    const modalType = page.querySelector('.popup_opened');
-    closePopup(modalType);
+    const openedPopup = page.querySelector('.popup_opened');
+    closePopup(openedPopup);
   };
-}
+};
 export function handleOverlay(event){
-  closePopup(event.target); 
+  if (event.target.classList.contains("popup_opened")) {
+    closePopup(event.target);
+  }
 }
 export function setNewAvatar(newAvatar){
   profileAvatar.style.backgroundImage = "url("+newAvatar+")";
