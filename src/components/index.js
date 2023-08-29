@@ -77,8 +77,8 @@ export function handleLikeButton(cardId, likeButton, itemLikes) {
   }
   };
 
-export function handleDeleteIcon(cardElement, cardTemplateDeleteIcon, profileUserId){
-  if (this._ownerId != profileUserId) {
+export function handleDeleteIcon(cardElement, cardTemplateDeleteIcon){
+  if (this._ownerId != this.getProfileId()) {
     cardTemplateDeleteIcon.classList.add('card__trash_hidden');
   }
   else {

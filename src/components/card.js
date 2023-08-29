@@ -40,11 +40,10 @@ export class Card {
 
     this.#cardElement.setAttribute('card-id', this._cardId);
     cardTemplateDeleteIcon.setAttribute('owner-id', this._ownerId);
-    
-    const profileUserId = profileName.getAttribute('user-id');
+
     if (this._likes.length > 0) {
       this._likes.forEach((item) => {
-        if (item._id === profileUserId) {
+        if (item._id === this.getProfileId()) {
           cardTemplateLikeButton.classList.add('card__like_active');
         }
       }) 
@@ -53,7 +52,7 @@ export class Card {
       cardTemplateLikeCounter.textContent = 0;
     }
   
-    this.#handleDeleteIcon(this.#cardElement, cardTemplateDeleteIcon, profileUserId);
+    this.#handleDeleteIcon(this, cardTemplateDeleteIcon);
 
     // обработчик для открытия попапа 
     cardTemplatePhoto.addEventListener('click', evt => {
@@ -69,5 +68,12 @@ export class Card {
       const cardTemplateLikeCounter = this.#cardElement.querySelector('.card__like-counter');
       this.#handleLikeButton(cardTemplatePhotoID, evt.target, cardTemplateLikeCounter);
     });
+  }
+
+  getProfileId() {
+    return profileName.getAttribute('user-id');
+  }
+  getCardOwnerId() {
+
   }
 }
