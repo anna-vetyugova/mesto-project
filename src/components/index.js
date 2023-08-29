@@ -4,8 +4,8 @@ import { openPopup, closePopup } from './modal.js';
 import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate } from './form.js';
 import { enableValidation } from './validate.js';
 import { addInitialProfileValues, resetFormFields, setUserInfo, setNewAvatar } from './utils.js';
-import { deleteCard, api } from './api';
 
+import { deleteCard, api } from './api';
 import { Card } from './card';
 
 profileEditButton.addEventListener('click', () => addInitialProfileValues(popupProfileEdit));
@@ -41,18 +41,65 @@ confirmButton.addEventListener('click', () => {
 
 enableValidation(validationObject);
 
+
+export function handlePopupCardShow(){
+  openPopup(popupCardShow);
+  popupCardShowImage.src = evt.target.getAttribute('src');
+  popupCardShowImage.alt = evt.target.getAttribute('alt');
+  popupCardShowImageCaption.textContent = evt.target.getAttribute('alt');
+}
+export function handleLikeButton(cardId, likeButton, itemLikes) {
+  if (likeButton.classList.contains('card__like_active')) {
+    api.deleteLike(cardId, likeButton, itemLikes)
+      .then((res) => {
+        likeButton.classList.remove('card__like_active');
+        return res.likes.length;
+      })
+      .then((currentLikes) => {
+        itemLikes.textContent = currentLikes;
+        if(itemLikes.textContent === '0'){
+          itemLikes.classList.add('card__like-counter_hidden');
+        }
+      })
+      .catch(console.error)
+  }
+  else {
+    api.addLike(cardId, likeButton, itemLikes)
+      .then((res) => {
+        likeButton.classList.add('card__like_active');
+        return res.likes.length;
+      })
+      .then((currentLikes) => {
+        itemLikes.textContent = currentLikes;
+        itemLikes.classList.remove('card__like-counter_hidden');
+      })
+      .catch(console.error)
+  }
+  };
+
+export function handleDeleteIcon(cardElement, cardTemplateDeleteIcon, profileUserId){
+  if (this._ownerId != profileUserId) {
+    cardTemplateDeleteIcon.classList.add('card__trash_hidden');
+  }
+  else {
+    cardTemplateDeleteIcon.addEventListener('click', () => {
+      openPopup(popupCardDelete);
+      confirmButton.setAttribute('card-id', this._cardId);
+    });
+  }
+}
+
 Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([userData, cards]) => {
-    profileName.setAttribute('user-id', userData._id);
-    setUserInfo(userData.name, userData.about);
-    setNewAvatar(userData.avatar);
-    return cards;
+.then(([userData, cards]) => {
+  profileName.setAttribute('user-id', userData._id);
+  setUserInfo(userData.name, userData.about);
+  setNewAvatar(userData.avatar);
+  return cards;
+})
+.then((cards) => {
+  cards.forEach((item) => {
+    const cardElement = new Card( item, handleLikeButton, handlePopupCardShow, handleDeleteIcon, cardTemplate).generate();
+    cardsList.append(cardElement);
   })
-  .then((cards) => {
-    cards.forEach((item) => {
-      const card = new Card(item, cardTemplate);
-      const cardElement = card.generate();
-      cardsList.append(cardElement);
-    })
-  })
-  .catch(console.error);
+})
+.catch(console.error);
