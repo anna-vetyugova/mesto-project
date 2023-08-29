@@ -4,11 +4,11 @@ export class Card {
   #templateSelector;
   #cardElement;
   #handleLikeButton;
-  #handlePopupCardShow;
+  #handleCardClick;
   #handleDeleteIcon;
   #handleLikeCounter;
 
-  constructor( { name, link, likes, owner, _id }, handleLikeButton, handlePopupCardShow, handleDeleteIcon, selector ) {
+  constructor( { name, link, likes, owner, _id }, handleLikeButton, handleCardClick, handleDeleteIcon, selector ) {
     this._name = name;
     this._link = link;
     this._likes = likes;
@@ -17,7 +17,7 @@ export class Card {
 
     this.#templateSelector = selector;
     this.#handleLikeButton = handleLikeButton;
-    this.#handlePopupCardShow = handlePopupCardShow;
+    this.#handleCardClick = handleCardClick;
     this.#handleDeleteIcon = handleDeleteIcon;
   }
   #getTemplate() {
@@ -56,7 +56,7 @@ export class Card {
 
     // обработчик для открытия попапа 
     cardTemplatePhoto.addEventListener('click', evt => {
-      this.#handlePopupCardShow(evt);
+      this.#handleCardClick(evt);
     });
 
     return this.#cardElement;

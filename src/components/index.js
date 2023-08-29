@@ -42,7 +42,7 @@ confirmButton.addEventListener('click', () => {
 enableValidation(validationObject);
 
 
-export function handlePopupCardShow(){
+export function handleCardClick(){
   openPopup(popupCardShow);
   popupCardShowImage.src = evt.target.getAttribute('src');
   popupCardShowImage.alt = evt.target.getAttribute('alt');
@@ -98,7 +98,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 })
 .then((cards) => {
   cards.forEach((item) => {
-    const cardElement = new Card( item, handleLikeButton, handlePopupCardShow, handleDeleteIcon, cardTemplate).generate();
+    const cardElement = new Card( item, handleLikeButton, handleCardClick, handleDeleteIcon, cardTemplate).generate();
     cardsList.append(cardElement);
   })
 })
