@@ -4,19 +4,20 @@ import { api } from './api.js'
 
 
 export class Card {
+  #templateSelector;
   constructor({name, link, likes, owner, _id}, selector) {
     this._name = name;
     this._link = link;
     this._likes = likes;
     this._ownerId = owner._id;
     this._cardId = _id;
-    this._selector = selector;
+    this.#templateSelector = selector;
   }
-  _creatCard() {
-    return this._selector.querySelector('.card').cloneNode(true);
+  #getTemplate() {
+    return this.#templateSelector.content.querySelector('.card').cloneNode(true);
   }
   generate() {
-    this._element = this._creatCard();
+    this._element = this.#getTemplate();
     this._setEventListeners();
 
     const cardTemplatePhoto = this._element.querySelector('.card__photo');

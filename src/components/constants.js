@@ -28,7 +28,7 @@ const placeName = formCardAdd.querySelector('.popup__form-field_place_name');
 const placeLink = formCardAdd.querySelector('.popup__form-field_place_link');
 
 const cardsList = page.querySelector('.elements__photo-grid');
-const cardTemplate = document.querySelector('#card').content;
+const cardTemplate = document.querySelector('#card');
 
 const popupCardShowImage = popupCardShow.querySelector('.popup__image');
 const popupCardShowImageCaption = popupCardShow.querySelector('.popup__caption');
