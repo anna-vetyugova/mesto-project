@@ -1,11 +1,12 @@
 import '../index.css';
-import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, cardsList, validationObject, confirmButton, popupCardDelete } from './constants.js';
+import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, cardsList, validationObject, confirmButton, popupCardDelete, cardTemplate } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
 import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate } from './form.js';
 import { enableValidation } from './validate.js';
 import { addInitialProfileValues, resetFormFields, setUserInfo, setNewAvatar } from './utils.js';
-import { getInitialsCards, getUserInfo, deleteCard } from './api';
-import { createCard } from './card';
+import { deleteCard, api } from './api';
+
+import { Card } from './card';
 
 profileEditButton.addEventListener('click', () => addInitialProfileValues(popupProfileEdit));
 cardAddButton.addEventListener('click', () => {
@@ -40,7 +41,7 @@ confirmButton.addEventListener('click', () => {
 
 enableValidation(validationObject);
 
-Promise.all([getUserInfo(), getInitialsCards()])
+Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cards]) => {
     profileName.setAttribute('user-id', userData._id);
     setUserInfo(userData.name, userData.about);
@@ -49,8 +50,9 @@ Promise.all([getUserInfo(), getInitialsCards()])
   })
   .then((cards) => {
     cards.forEach((item) => {
-      const card = createCard(item.name, item.link, item.likes, item.owner._id, item._id);
-      cardsList.append(card);
+      const card = new Card(item, cardTemplate);
+      const cardElement = card.generate();
+      cardsList.append(cardElement);
     })
   })
   .catch(console.error);

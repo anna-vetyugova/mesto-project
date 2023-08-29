@@ -1,5 +1,4 @@
 import { cohortId, token } from './constants';
-import { checkResponse } from './utils';
 
 const config = {
   baseUrl: `https://nomoreparties.co/v1/${cohortId}/`,
@@ -8,12 +7,60 @@ const config = {
     'Content-Type': 'application/json'
   }
 };
-export function request(endpoint, options) {
-  return fetch(`${config.baseUrl}${endpoint}`, options).then(checkResponse);
+
+class Api {
+  // ниже описываем приватные переменные и методы
+  #baseUrl;
+  #headers;
+  #onResponse(res){
+    return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  }
+  #onRequest(endpoint, options) {
+    return fetch(`${this.#baseUrl}${endpoint}`, options).then(this.#onResponse);
+  }
+  constructor(config) {
+    this.#baseUrl = config.baseUrl;
+    this.#headers = config.headers;
+  };
+
+  getInitialCards() {
+    return this.#onRequest('cards', {
+      method: 'GET',
+      headers: {
+        authorization: this.#headers.authorization
+      }
+    })
+  }
+  getUserInfo() {
+    return this.#onRequest('users/me', {
+      method: 'GET',
+      headers: {
+        authorization: this.#headers.authorization
+      }
+    })
+  }
+  addLike(cardId) {
+    return this.#onRequest(`cards/likes/${cardId}`, {
+      method: 'PUT',
+      headers: {
+        authorization: this.#headers.authorization
+      }
+    })
+  };
+  deleteLike(cardId) {
+    return this.#onRequest(`cards/likes/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.#headers.authorization
+      }
+    })
+  };
 }
 
-export const getInitialsCards = () => {
-  return request('cards', {
+export const api = new Api(config);
+
+/*export const getInitialsCards = () => {
+  return onRequest('cards', {
     method: 'GET',
     headers: {
       authorization: config.headers.authorization
@@ -21,15 +68,15 @@ export const getInitialsCards = () => {
   });
 };
 export const getUserInfo = () => {
-  return request('users/me',{
+  return api.onRequest('users/me',{
     method: 'GET',
     headers: {
       authorization: config.headers.authorization
     }
   });
-};
+};*/
 export const updateUserInfo = (newProfileName, newProfileJob) => {
-  return request('users/me',{
+  return onRequest('users/me',{
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
@@ -39,7 +86,7 @@ export const updateUserInfo = (newProfileName, newProfileJob) => {
   })
 };
 export const updateAvatar = (newAvatarLink) => {
-  return request('users/me/avatar',{
+  return onRequest('users/me/avatar',{
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
@@ -48,7 +95,7 @@ export const updateAvatar = (newAvatarLink) => {
   })
 };
 export const addCard = (newCardName, newCardLink) => {
-  return request('cards',{
+  return onRequest('cards',{
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -58,15 +105,15 @@ export const addCard = (newCardName, newCardLink) => {
   })
 };
 export const deleteCard = (cardId) => {
-  return request(`cards/${cardId}`, {
+  return onRequest(`cards/${cardId}`, {
     method: 'DELETE',
     headers: {
       authorization: config.headers.authorization
     }
   })
 };
-export const addLike = (cardId) => {
-  return request(`cards/likes/${cardId}`, {
+/*export const addLike = (cardId) => {
+  return onRequest(`cards/likes/${cardId}`, {
     method: 'PUT',
     headers: {
       authorization: config.headers.authorization
@@ -74,10 +121,10 @@ export const addLike = (cardId) => {
   })
 };
 export const deleteLike = (cardId) => {
-  return request(`cards/likes/${cardId}`, {
+  return onRequest(`cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: {
       authorization: config.headers.authorization
     }
   })
-};
+};*/

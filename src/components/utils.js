@@ -49,6 +49,7 @@ export function renderLoading(isLoading, button, buttonText='Сохранить'
     button.textContent = buttonText;
   }
 };
-export function checkResponse(res) {
-  return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-}
+
+// export function checkResponse(res) {
+//   return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+// }

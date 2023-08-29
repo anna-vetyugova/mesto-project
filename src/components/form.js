@@ -2,7 +2,7 @@ import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, newProfileName, newP
 import { closePopup } from './modal.js';
 import { setNewAvatar, renderLoading } from './utils.js';
 import { updateUserInfo, updateAvatar, addCard } from './api.js';
-import { createCard } from './card.js';
+import { Card } from './card.js';
 
 export function handleFormSubmit(request, evt, modalType, loadingText = "Сохранение..."){
   evt.preventDefault(); 
@@ -34,8 +34,9 @@ export function submitFormCardAdd(evt) {
   function makeRequest() {
     return addCard(placeName.value, placeLink.value).then((userData) => {
       const userId = profileName.getAttribute('user-id');
-      const card = createCard(userData.name, userData.link, 0, userId, userData._id);
-      cardsList.prepend(card);
+      const card = new Card(userData.name, userData.link, 0, userId, userData._id, cardTemplate);
+      const cardElement = card.generate();
+      cardsList.prepend(cardElement);
     });
   };
   handleFormSubmit(makeRequest, evt, popupCardAdd);
