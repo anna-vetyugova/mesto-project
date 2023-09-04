@@ -6,14 +6,18 @@ export class Card {
   #handleLikeButton;
   #handleCardClick;
   #handleDeleteIcon;
-  #handleLikeCounter;
+  #name;
+  #link;
+  #likes;
+  #ownerId;
+  #cardId;
 
   constructor( { name, link, likes, owner, _id }, handleLikeButton, handleCardClick, handleDeleteIcon, selector ) {
-    this._name = name;
-    this._link = link;
-    this._likes = likes;
-    this._ownerId = owner._id;
-    this._cardId = _id;
+    this.#name = name;
+    this.#link = link;
+    this.#likes = likes;
+    this.#ownerId = owner._id;
+    this.#cardId = _id;
 
     this.#templateSelector = selector;
     this.#handleLikeButton = handleLikeButton;
@@ -33,16 +37,16 @@ export class Card {
     const cardTemplateLikeButton = this.#cardElement.querySelector('.card__like');
     const cardTemplateLikeCounter = this.#cardElement.querySelector('.card__like-counter');
 
-    cardTemplatePhoto.src = this._link;
-    cardTemplatePhoto.alt = this._name;
-    cardTemplateText.textContent = this._name;
-    cardTemplateLikeCounter.textContent = this._likes.length;
+    cardTemplatePhoto.src = this.#link;
+    cardTemplatePhoto.alt = this.#name;
+    cardTemplateText.textContent = this.#name;
+    cardTemplateLikeCounter.textContent = this.#likes.length;
 
-    this.#cardElement.setAttribute('card-id', this._cardId);
-    cardTemplateDeleteIcon.setAttribute('owner-id', this._ownerId);
+    this.#cardElement.setAttribute('card-id', this.#cardId);
+    cardTemplateDeleteIcon.setAttribute('owner-id', this.#ownerId);
 
-    if (this._likes.length > 0) {
-      this._likes.forEach((item) => {
+    if (this.#likes.length > 0) {
+      this.#likes.forEach((item) => {
         if (item._id === this.getProfileId()) {
           cardTemplateLikeButton.classList.add('card__like_active');
         }

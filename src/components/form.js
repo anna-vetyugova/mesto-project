@@ -1,8 +1,8 @@
 import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, newProfileName, newProfileJob, placeName, placeLink, profileName, profileJob, cardsList } from './constants.js';
 import { closePopup } from './modal.js';
 import { setNewAvatar, renderLoading } from './utils.js';
-import { updateUserInfo, updateAvatar, addCard } from './api.js';
-import { Card } from './card.js';
+import { updateUserInfo, updateAvatar, addCard } from './Api.js';
+import { Card } from './Card.js';
 
 export function handleFormSubmit(request, evt, modalType, loadingText = "Сохранение..."){
   evt.preventDefault(); 

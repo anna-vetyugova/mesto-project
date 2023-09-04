@@ -2,11 +2,11 @@ import '../index.css';
 import { popupProfileEdit, popupCardAdd, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, cardsList, validationObject, confirmButton, popupCardDelete, cardTemplate } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
 import { submitFormCardEdit, submitFormCardAdd, submitFormAvatarUpdate } from './form.js';
-import { enableValidation } from './validate.js';
+import { FormValidator } from './FormValidator.js';
 import { addInitialProfileValues, resetFormFields, setUserInfo, setNewAvatar } from './utils.js';
 
-import { deleteCard, api } from './api';
-import { Card } from './card';
+import { deleteCard, api } from './Api';
+import { Card } from './Card';
 
 profileEditButton.addEventListener('click', () => addInitialProfileValues(popupProfileEdit));
 cardAddButton.addEventListener('click', () => {
@@ -39,7 +39,14 @@ confirmButton.addEventListener('click', () => {
     .catch(console.error);
 });
 
-enableValidation(validationObject);
+// enableValidation(validationObject);
+
+const formElements = Array.from(document.querySelectorAll(validationObject.formSelector));
+const formValidationObject = {}
+formElements.forEach((formElement) => {
+  formValidationObject[`${formElement.name}`] = new FormValidator(validationObject, formElement);
+  formValidationObject[`${formElement.name}`].enableValidation();
+});
 
 
 export function handleCardClick(){

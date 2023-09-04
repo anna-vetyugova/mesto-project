@@ -1,7 +1,7 @@
 
 import { page, profileName, profileJob, newProfileName, newProfileJob, profileAvatar, validationObject } from './constants.js';
 import { openPopup, closePopup } from './modal.js';
-import { hideInputError, changeButtonState } from './validate.js';
+import { hideInputError, changeButtonState, FormValidator } from './FormValidator.js';
 
 export function handleEscape(event){
   if (event.key === 'Escape') {
