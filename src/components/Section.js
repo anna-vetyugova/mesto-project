@@ -1,21 +1,25 @@
-export default class Section {
-    #renderItems;
-    #renderer;
-    #container;
-    
-    constructor({ items, renderer }, containerSelector) {
-      this.#renderedItems = items;
-      this.#renderer = renderer;
-      this.#container = document.querySelector(containerSelector);
-    }
-  
-    addItem(element) {
-      this.#container.append(element);
-    }
-  
-    renderItems() {
-      this.#renderItems.forEach(item => {
-        this.#renderer(item);
-      });
+export class Section{
+  #renderer;
+  #containerSelector;
+
+  constructor(renderer, containerSelector){
+    this.#renderer = renderer;
+    this.#containerSelector = document.querySelector(containerSelector);
+  }
+
+  addItem(elementNoded, position) {
+    switch (position) {
+      case "append": 
+          this.#containerSelector.append(elementNoded); break;
+      case "prepend": 
+          this.#containerSelector.prepend(elementNoded); break;
+      default: console.error('Невалидное значение для параметра position!'); break;
     }
   }
+
+  renderItems(items) {
+    items.forEach(item => {
+      this.#renderer( item , 'append' );
+    })
+  }
+} 
