@@ -20,4 +20,4 @@
 
 [**GitHub Pages**](https://anna-vetyugova.github.io/mesto-project/)
 
-Напарник: [GitHub](https://github.com/RinaLis) и [почта](anpast2014@yandex.ru)
+Напарник: [GitHub](https://github.com/RinaLis) и почта: anpast2014@yandex.ru
