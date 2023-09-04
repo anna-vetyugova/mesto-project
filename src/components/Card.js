@@ -1,18 +1,12 @@
 import { profileName } from './constants.js';
-
 export class Card {
+  #name; #link; #likes; #ownerId; #cardId;
   #templateSelector;
   #cardElement;
   #handleLikeButton;
   #handleCardClick;
   #handleDeleteIcon;
-  #name;
-  #link;
-  #likes;
-  #ownerId;
-  #cardId;
-
-  constructor( { name, link, likes, owner, _id }, handleLikeButton, handleCardClick, handleDeleteIcon, selector ) {
+  constructor( { name, link, likes, owner, _id }, handleLikeButton, handleCardClick, handleDeleteIcon,selector ) {
     this.#name = name;
     this.#link = link;
     this.#likes = likes;
@@ -27,10 +21,7 @@ export class Card {
   #getTemplate() {
     return this.#templateSelector.content.querySelector('.card').cloneNode(true);
   }
-  generate() {
-    this.#cardElement = this.#getTemplate();
-    this.#setEventListeners();
-
+  #setTemplateData(){
     const cardTemplatePhoto = this.#cardElement.querySelector('.card__photo');
     const cardTemplateText = this.#cardElement.querySelector('.card__text');
     const cardTemplateDeleteIcon = this.#cardElement.querySelector('.card__trash');
@@ -55,29 +46,35 @@ export class Card {
       cardTemplateLikeCounter.classList.add('card__like-counter_hidden'); 
       cardTemplateLikeCounter.textContent = 0;
     }
-  
-    this.#handleDeleteIcon(this, cardTemplateDeleteIcon);
-
-    // обработчик для открытия попапа 
-    cardTemplatePhoto.addEventListener('click', evt => {
-      this.#handleCardClick(evt);
-    });
-
-    return this.#cardElement;
   }
-  
-  #setEventListeners(){
+  #setEventListeners(evt){
     this.#cardElement.querySelector('.card__like').addEventListener('click', evt => {
       const cardTemplatePhotoID = this.#cardElement.getAttribute('card-id');
       const cardTemplateLikeCounter = this.#cardElement.querySelector('.card__like-counter');
-      this.#handleLikeButton(cardTemplatePhotoID, evt.target, cardTemplateLikeCounter);
+      this.#handleLikeButton(cardTemplatePhotoID, evt.target, cardTemplateLikeCounter);пшпш
+    });
+    // обработчик для открытия попапа 
+    this.#cardElement.querySelector('.card__photo').addEventListener('click', evt => {
+      this.#handleCardClick(this);
     });
   }
-
+  generate() {
+    this.#cardElement = this.#getTemplate();
+    this.#setTemplateData();
+    this.#handleDeleteIcon(this.getCardId(), this.#cardElement.querySelector('.card__trash'));
+    this.#setEventListeners(); 
+    return this.#cardElement;
+  }
   getProfileId() {
     return profileName.getAttribute('user-id');
   }
-  getCardOwnerId() {
-
+  getCardImage() {
+    return this.#cardElement.querySelector('.card__photo').src;
+  }
+  getCardName() {
+    return this.#cardElement.querySelector('.card__text').textContent;
+  }
+  getCardId(){
+    return this.#cardElement.getAttribute('card-id');
   }
 }
