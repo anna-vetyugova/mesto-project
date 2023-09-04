@@ -1,14 +1,4 @@
-import { cohortId, token } from './constants';
-
-const config = {
-  baseUrl: `https://nomoreparties.co/v1/${cohortId}/`,
-  headers: {
-    authorization: `${token}`,
-    'Content-Type': 'application/json'
-  }
-};
-
-class Api {
+export class Api {
   // ниже описываем приватные переменные и методы
   #baseUrl;
   #headers;
@@ -22,7 +12,6 @@ class Api {
     this.#baseUrl = config.baseUrl;
     this.#headers = config.headers;
   };
-
   getInitialCards() {
     return this.#onRequest('cards', {
       method: 'GET',
@@ -55,76 +44,41 @@ class Api {
       }
     })
   };
+  updateUserInfo(newProfileName, newProfileJob){
+    return this.#onRequest('users/me', {
+      method: 'PATCH',
+      headers: this.#headers,
+      body: JSON.stringify({
+        name: newProfileName,
+        about: newProfileJob
+      })
+    })
+  };
+  updateAvatar (newAvatarLink){
+    return this.#onRequest('users/me/avatar',{
+      method: 'PATCH',
+      headers: this.#headers,
+      body: JSON.stringify({
+        avatar: newAvatarLink
+      })
+    })
+  };
+  addCard (newCardName, newCardLink) {
+    return this.#onRequest('cards',{
+      method: 'POST',
+      headers: this.#headers,
+      body: JSON.stringify({
+        name: newCardName,
+        link: newCardLink
+      })
+    })
+  };
+  deleteCard (cardId) {
+    return this.#onRequest(`cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this.#headers.authorization
+      }
+    })
+  };
 }
-
-export const api = new Api(config);
-
-/*export const getInitialsCards = () => {
-  return onRequest('cards', {
-    method: 'GET',
-    headers: {
-      authorization: config.headers.authorization
-    }
-  });
-};
-export const getUserInfo = () => {
-  return api.onRequest('users/me',{
-    method: 'GET',
-    headers: {
-      authorization: config.headers.authorization
-    }
-  });
-};*/
-export const updateUserInfo = (newProfileName, newProfileJob) => {
-  return onRequest('users/me',{
-    method: 'PATCH',
-    headers: config.headers,
-    body: JSON.stringify({
-      name: newProfileName,
-      about: newProfileJob
-    })
-  })
-};
-export const updateAvatar = (newAvatarLink) => {
-  return onRequest('users/me/avatar',{
-    method: 'PATCH',
-    headers: config.headers,
-    body: JSON.stringify({
-      avatar: newAvatarLink
-    })
-  })
-};
-export const addCard = (newCardName, newCardLink) => {
-  return onRequest('cards',{
-    method: 'POST',
-    headers: config.headers,
-    body: JSON.stringify({
-      name: newCardName,
-      link: newCardLink
-    })
-  })
-};
-export const deleteCard = (cardId) => {
-  return onRequest(`cards/${cardId}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: config.headers.authorization
-    }
-  })
-};
-/*export const addLike = (cardId) => {
-  return onRequest(`cards/likes/${cardId}`, {
-    method: 'PUT',
-    headers: {
-      authorization: config.headers.authorization
-    }
-  })
-};
-export const deleteLike = (cardId) => {
-  return onRequest(`cards/likes/${cardId}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: config.headers.authorization
-    }
-  })
-};*/
