@@ -68,8 +68,8 @@ avatarUpdateButton.addEventListener('click', () => {
 export function submitFormAvatarUpdate(formInputs) {
   const newAvatarLink = formInputs[0].value;
   return api.updateAvatar(newAvatarLink)
-    .then(() => {
-      userInfo.getUserInfo().then(() => userInfo.setUserInfo());
+    .then((data) => {
+      userInfo.setUserAvatar(data.avatar);
     })
     .catch(console.error);
 };
