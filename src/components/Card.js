@@ -51,7 +51,7 @@ export class Card {
     this.#cardElement.querySelector('.card__like').addEventListener('click', evt => {
       const cardTemplatePhotoID = this.#cardElement.getAttribute('card-id');
       const cardTemplateLikeCounter = this.#cardElement.querySelector('.card__like-counter');
-      this.#handleLikeButton(cardTemplatePhotoID, evt.target, cardTemplateLikeCounter);пшпш
+      this.#handleLikeButton(cardTemplatePhotoID, evt.target, cardTemplateLikeCounter);
     });
     // обработчик для открытия попапа 
     this.#cardElement.querySelector('.card__photo').addEventListener('click', evt => {
