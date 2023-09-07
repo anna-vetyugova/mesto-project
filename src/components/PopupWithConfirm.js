@@ -8,7 +8,6 @@ export class PopupWithConfirm extends Popup {
   #cardElementId;
   constructor(popupElement, handleCardDelete, confirmButtonSelector){
     super(popupElement);
-    this.#deletedCardId = this.#deletedCardId;
     this.#handleCardDelete = handleCardDelete;
     this.#confirmButton = popupElement.querySelector(confirmButtonSelector);
   }

@@ -11,8 +11,8 @@ export class FormValidator {
     this.#inputErrorClass = inputErrorClass;
     this.#errorClass = errorClass;
 
-    this.#submitButton = formSelector.querySelector(submitButtonSelector);
-    this.#formInputs = Array.from(this.#formSelector.querySelectorAll(inputSelector));
+    this.#submitButton = this.#formElement.querySelector(submitButtonSelector);
+    this.#formInputs = Array.from(this.#formElement.querySelectorAll(inputSelector));
     
   }
   #showInputError(formInput, errorMessage, errorElement){
