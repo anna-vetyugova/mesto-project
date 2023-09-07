@@ -1,71 +1,37 @@
-export class FormValidator {
-  #inputSelector; 
-  #submitButtonSelector; 
-  #inactiveButtonClass; 
-  #inputErrorClass; 
-  #errorClass;
-  #formSelector;
+export class Popup {
+  #popupElement;
+  #closePopupButton;
 
-  constructor({ inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass }, formSelector){
-    this.#formSelector = formSelector;
-    this.#inputSelector = inputSelector;
-    this.#submitButtonSelector = submitButtonSelector;
-    this.#inactiveButtonClass = inactiveButtonClass;
-    this.#inputErrorClass = inputErrorClass;
-    this.#errorClass = errorClass;
+  constructor(popupElement){
+    this.#popupElement = popupElement;
+    this.#closePopupButton = this.#popupElement.querySelector('.popup__close-icon');
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._handleOverlay = this._handleOverlay.bind(this);
   }
-  #showInputError(formElement, formInput, errorMessage, inputErrorClass, errorClass){
-    const errorElement = formElement.querySelector(`.${formInput.id}_error`);
-    formInput.classList.add(inputErrorClass); 
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(errorClass);
-  
-  };
-  hideInputError(formElement, formInput, inputErrorClass, errorClass){
-    const errorElement = formElement.querySelector(`.${formInput.id}_error`);
-    formInput.classList.remove(inputErrorClass); 
-    errorElement.classList.remove(errorClass); 
-    errorElement.textContent = '';
-  };
-  #isValid(formElement, formInput, inputErrorClass, errorClass){
-    if(formInput.validity.patternMismatch) {
-      formInput.setCustomValidity(formInput.dataset.errorMessage);
-    }
-    else {
-      formInput.setCustomValidity("");
-    };
-    if(!formInput.validity.valid) {
-      this.#showInputError(formElement, formInput, formInput.validationMessage, inputErrorClass, errorClass);
-    }
-    else {
-      this.hideInputError(formElement, formInput, inputErrorClass, errorClass);
-    }
-  };
-  #changeButtonState(formInputs, buttonElement, inactiveButtonClass) {
-    const result = formInputs.some( (formInput) => formInput.validity.valid === false);
-    if (!result) {
-      buttonElement.removeAttribute("disabled");
-      buttonElement.classList.remove(inactiveButtonClass);
-    }
-    else {
-      buttonElement.setAttribute("disabled", true);
-      buttonElement.classList.add(inactiveButtonClass);
+  _handleEscClose(event){
+    if (event.key === 'Escape') {
+      this.closePopup();
     };
   };
-  #setEventListeners(){
-    const formInputs = Array.from(this.#formSelector.querySelectorAll(this.#inputSelector));
-    const buttonElement = this.#formSelector.querySelector(this.#submitButtonSelector);
-    this.#changeButtonState(formInputs, buttonElement, this.#inactiveButtonClass);
-    formInputs.forEach((formInput) => {
-      formInput.addEventListener('input', () => {
-        this.#isValid(this.#formSelector, formInput, this.#inputErrorClass, this.#errorClass);  
-        this.#changeButtonState(formInputs, buttonElement, this.#inactiveButtonClass);
-      }); 
+  _handleOverlay(event){
+    if (event.target.classList.contains("popup_opened")) {
+      this.closePopup();
+    }
+  }
+  openPopup(){
+    this.#popupElement.classList.add('popup_opened');
+    document.addEventListener('keydown', this._handleEscClose);
+    this.#popupElement.addEventListener('click', this._handleOverlay);
+  }
+  closePopup(){
+    this.#popupElement.classList.remove('popup_opened');
+    document.removeEventListener('keydown', this._handleEscClose);
+    this.#popupElement.removeEventListener('click', this._handleOverlay);
+  }
+  setEventListeners(){
+    this.#closePopupButton.addEventListener('click', () => {
+      this.closePopup();
     });
-  };
-
-  enableValidation(){
-    this.#setEventListeners(this.#formSelector);
-  };
-
-};
+    return this.#popupElement;
+  }
+}

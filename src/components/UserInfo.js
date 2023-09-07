@@ -1,5 +1,3 @@
-import { profileName, profileJob, profileAvatar } from "./constants.js";
-
 export class UserInfo {
   #profileName;
   #profileDescription;
@@ -21,7 +19,6 @@ export class UserInfo {
   setUserInfo({ name, about }){
     this.#profileName.textContent = name;
     this.#profileDescription.textContent = about;
-    
   }
   setUserAvatar(avatarLink) {
     this.#profileAvatar.style.backgroundImage = "url("+avatarLink+")";

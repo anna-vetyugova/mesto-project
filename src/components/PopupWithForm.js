@@ -1,15 +1,15 @@
 import { Popup } from "./Popup.js";
-import { updateValidation } from "./index.js";
 
 export class PopupWithForm extends Popup {
-  #popupSelector;
   #handelFormSubmitRequest;
   #formSelector;
-  constructor(popupSelector, handelFormSubmitRequest){
-    super(popupSelector);
-    this.#popupSelector = popupSelector;
-    this.#formSelector = this.#popupSelector.querySelector('.popup__form');
+  #formInputs;
+  #formValues;
+  constructor(popupElement, handelFormSubmitRequest){
+    super(popupElement);
+    this.#formSelector = popupElement.querySelector('.popup__form');
     this.#handelFormSubmitRequest = handelFormSubmitRequest;
+    this.#formInputs = this.#formSelector.querySelectorAll('.popup__form-field');
   }
   renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...'){
     if(isLoading) {
@@ -20,28 +20,17 @@ export class PopupWithForm extends Popup {
     }
   };
   #getInputValues(){
-    const { elements } = this.#formSelector;
-    const formData = Array.from(elements)
+    this.#formValues = {};
+    Array.from(this.#formInputs)
       .filter((item) => !!item.value)
-      .map((element) => {
-        const { name, value } = element
-        return { name, value }
+      .forEach((element) => {
+        this.#formValues[element.name] = element.value;
       })
-    return formData;
+    return this.#formValues;
   };
   #handleFormSubmit(evt, loadingText = "Сохранение..."){
     evt.preventDefault(); 
-    const submitButton = evt.submitter;
-    const initialText = submitButton.textContent;
-    this.renderLoading(true, submitButton, initialText, loadingText);
-    this.#handelFormSubmitRequest(this.#getInputValues())
-      .then(() => {
-        this.closePopup();
-      })
-      .catch(console.error)
-      .finally(() => {
-        this.renderLoading(false, submitButton, initialText);
-      });
+    this.#handelFormSubmitRequest(this.#getInputValues(), evt);
   }
   setEventListeners() {
     this.#formSelector.addEventListener('submit', (evt) => {
@@ -52,6 +41,5 @@ export class PopupWithForm extends Popup {
   closePopup(){
     super.closePopup();
     this.#formSelector.reset();
-    updateValidation(this.#formSelector);
   }
 }
