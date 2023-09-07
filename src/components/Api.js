@@ -8,9 +8,9 @@ export class Api {
   #onRequest(endpoint, options) {
     return fetch(`${this.#baseUrl}${endpoint}`, options).then(this.#onResponse);
   }
-  constructor(config) {
-    this.#baseUrl = config.baseUrl;
-    this.#headers = config.headers;
+  constructor({baseUrl, headers}) {
+    this.#baseUrl = baseUrl;
+    this.#headers = headers;
   };
   getInitialCards() {
     return this.#onRequest('cards', {

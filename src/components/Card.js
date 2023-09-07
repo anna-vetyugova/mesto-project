@@ -1,6 +1,6 @@
 export class Card {
   #name; #link; #likes; #ownerId; #cardId;
-  #templateSelector;
+  #templateElement;
   #cardElement;
   #handleLikeButton;
   #handleCardClick;
@@ -10,7 +10,7 @@ export class Card {
   #cardTemplateLikeButton;
   #cardTemplatePhoto;
   #cardTemplateText;
-  constructor( { name, link, likes, owner, _id }, profileUserId, handleLikeButton, handleCardClick, handleDeleteIcon, templateSelector ) {
+  constructor( { name, link, likes, owner, _id }, profileUserId, handleLikeButton, handleCardClick, handleDeleteIcon, templateElement ) {
     this.#name = name;
     this.#link = link;
     this.#likes = likes;
@@ -18,13 +18,13 @@ export class Card {
     this.#cardId = _id;
     this.#profileUserId = profileUserId;
 
-    this.#templateSelector = templateSelector;
+    this.#templateElement = templateElement;
     this.#handleLikeButton = handleLikeButton;
     this.#handleCardClick = handleCardClick;
     this.#handleDeleteIcon = handleDeleteIcon;
   }
   #getTemplate() {
-    return this.#templateSelector.content.querySelector('.card').cloneNode(true);
+    return this.#templateElement.content.querySelector('.card').cloneNode(true);
   }
   #setTemplateData(){
     this.#cardTemplatePhoto = this.#cardElement.querySelector('.card__photo');

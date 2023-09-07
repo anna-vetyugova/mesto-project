@@ -2,11 +2,11 @@ export class FormValidator {
   #inactiveButtonClass; 
   #inputErrorClass; 
   #errorClass;
-  #formSelector;
+  #formElement;
   #submitButton;
   #formInputs;
-  constructor({ inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass }, formSelector){
-    this.#formSelector = formSelector;
+  constructor({ inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass }, formElement){
+    this.#formElement = formElement;
     this.#inactiveButtonClass = inactiveButtonClass;
     this.#inputErrorClass = inputErrorClass;
     this.#errorClass = errorClass;
@@ -15,18 +15,18 @@ export class FormValidator {
     this.#formInputs = Array.from(this.#formSelector.querySelectorAll(inputSelector));
     
   }
-  #showInputError(formInput, errorMessage, inputErrorClass, errorClass, errorElement){
-    formInput.classList.add(inputErrorClass); 
+  #showInputError(formInput, errorMessage, errorElement){
+    formInput.classList.add(this.#inputErrorClass); 
     errorElement.textContent = errorMessage;
-    errorElement.classList.add(errorClass);
+    errorElement.classList.add(this.#errorClass);
   };
-  #hideInputError(formInput, inputErrorClass, errorClass, errorElement){
-    formInput.classList.remove(inputErrorClass); 
-    errorElement.classList.remove(errorClass); 
+  #hideInputError(formInput, errorElement){
+    formInput.classList.remove(this.#inputErrorClass); 
+    errorElement.classList.remove(this.#errorClass); 
     errorElement.textContent = '';
   };
-  #isValid(formElement, formInput, inputErrorClass, errorClass){
-    const errorElement = formElement.querySelector(`.${formInput.id}_error`);
+  #isValid(formInput){
+    const errorElement = this.#formElement.querySelector(`.${formInput.id}_error`);
     if(formInput.validity.patternMismatch) {
       formInput.setCustomValidity(formInput.dataset.errorMessage);
     }
@@ -34,42 +34,42 @@ export class FormValidator {
       formInput.setCustomValidity("");
     };
     if(!formInput.validity.valid) {
-      this.#showInputError(formInput, formInput.validationMessage, inputErrorClass, errorClass, errorElement);
+      this.#showInputError(formInput, formInput.validationMessage, errorElement);
     }
     else {
-      this.#hideInputError(formInput, inputErrorClass, errorClass, errorElement);
+      this.#hideInputError(formInput, errorElement);
     }
   };
-  #changeButtonState(inactiveButtonClass) {
+  #changeButtonState() {
     const result = this.#formInputs.some( (formInput) => formInput.validity.valid === false);
     if (!result) {
       this.#submitButton.removeAttribute("disabled");
-      this.#submitButton.classList.remove(inactiveButtonClass);
+      this.#submitButton.classList.remove(this.#inactiveButtonClass);
     }
     else {
       this.#submitButton.setAttribute("disabled", true);
-      this.#submitButton.classList.add(inactiveButtonClass);
+      this.#submitButton.classList.add(this.#inactiveButtonClass);
     };
   };
   #setEventListeners(){
-    this.#changeButtonState(this.#inactiveButtonClass);
+    this.#changeButtonState();
     this.#formInputs.forEach((formInput) => {
       formInput.addEventListener('input', () => {
-        this.#isValid(this.#formSelector, formInput, this.#inputErrorClass, this.#errorClass);  
-        this.#changeButtonState(this.#inactiveButtonClass);
+        this.#isValid(formInput );  
+        this.#changeButtonState();
       }); 
     });
   };
   updateValidation(){
-    this.#changeButtonState(this.#inactiveButtonClass);
+    this.#changeButtonState();
     this.#formInputs.forEach((formInput) => {
       formInput.setCustomValidity('');
-      const errorElement = this.#formSelector.querySelector(`.${formInput.id}_error`);
-      this.#hideInputError(formInput, this.#inputErrorClass, this.#errorClass, errorElement);
+      const errorElement = this.#formElement.querySelector(`.${formInput.id}_error`);
+      this.#hideInputError(formInput, errorElement);
     });
   }
   enableValidation(){
-    this.#setEventListeners(this.#formSelector);
+    this.#setEventListeners();
   };
 
 };
