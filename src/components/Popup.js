@@ -1,13 +1,12 @@
 export class Popup {
-  #popupSelector;
+  #popupElement;
   #closePopupButton;
-  #deletedCardId;
-  constructor(popupSelector){
-    this.#popupSelector = popupSelector;
-    this.#closePopupButton = this.#popupSelector.querySelector('.popup__close-icon');
+
+  constructor(popupElement){
+    this.#popupElement = popupElement;
+    this.#closePopupButton = this.#popupElement.querySelector('.popup__close-icon');
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlay = this._handleOverlay.bind(this);
-    this.#deletedCardId = this.#deletedCardId;
   }
   _handleEscClose(event){
     if (event.key === 'Escape') {
@@ -20,19 +19,19 @@ export class Popup {
     }
   }
   openPopup(){
-    this.#popupSelector.classList.add('popup_opened');
+    this.#popupElement.classList.add('popup_opened');
     document.addEventListener('keydown', this._handleEscClose);
-    this.#popupSelector.addEventListener('click', this._handleOverlay);
+    this.#popupElement.addEventListener('click', this._handleOverlay);
   }
   closePopup(){
-    this.#popupSelector.classList.remove('popup_opened');
+    this.#popupElement.classList.remove('popup_opened');
     document.removeEventListener('keydown', this._handleEscClose);
-    this.#popupSelector.removeEventListener('click', this._handleOverlay);
+    this.#popupElement.removeEventListener('click', this._handleOverlay);
   }
   setEventListeners(){
     this.#closePopupButton.addEventListener('click', () => {
       this.closePopup();
     });
-    return this.#popupSelector;
+    return this.#popupElement;
   }
 }
