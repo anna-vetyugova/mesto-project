@@ -43,7 +43,7 @@ export class FormValidator {
   #changeButtonState() {
     const result = this.#formInputs.some( (formInput) => formInput.validity.valid === false);
     if (!result) {
-      this.#submitButton.removeAttribute("disabled");
+      this.#submitButton.disabled = false;
       this.#submitButton.classList.remove(this.#inactiveButtonClass);
     }
     else {

@@ -71,7 +71,7 @@ export class Card {
   }
 
   updateLikeButtonStatus(data){
-    this.#cardTemplateLikeButton.classList.toggle('card__like_active')
+    this.#cardTemplateLikeButton.classList.toggle('card__like_active');
     this.#cardTemplateLikeCounter.textContent = data.likes.length;
     if(this.#cardTemplateLikeCounter.textContent === '0'){
       this.#cardTemplateLikeCounter.classList.add('card__like-counter_hidden');
