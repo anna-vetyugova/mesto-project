@@ -2,15 +2,16 @@ export class Card {
   #name; #link; #likes; #ownerId; #cardId;
   #templateElement;
   #cardElement;
-  #handleLikeButton;
   #handleCardClick;
-  #handleDeleteIcon;
   #profileUserId;
   #cardTemplateLikeCounter;
   #cardTemplateLikeButton;
   #cardTemplatePhoto;
   #cardTemplateText;
-  constructor( { name, link, likes, owner, _id }, profileUserId, handleLikeButton, handleCardClick, handleDeleteIcon, templateElement ) {
+  #cardTemplateDeleteIcon;
+  #handleLikeButton;
+  #handleDeleteIcon
+  constructor( { name, link, likes, owner, _id }, profileUserId, handleCardClick, handleLikeButton, handleDeleteIcon, templateElement ) {
     this.#name = name;
     this.#link = link;
     this.#likes = likes;
@@ -19,8 +20,8 @@ export class Card {
     this.#profileUserId = profileUserId;
 
     this.#templateElement = templateElement;
-    this.#handleLikeButton = handleLikeButton;
     this.#handleCardClick = handleCardClick;
+    this.#handleLikeButton = handleLikeButton;
     this.#handleDeleteIcon = handleDeleteIcon;
   }
   #getTemplate() {
@@ -31,6 +32,7 @@ export class Card {
     this.#cardTemplateText = this.#cardElement.querySelector('.card__text');
     this.#cardTemplateLikeButton = this.#cardElement.querySelector('.card__like');
     this.#cardTemplateLikeCounter = this.#cardElement.querySelector('.card__like-counter');
+    this.#cardTemplateDeleteIcon = this.#cardElement.querySelector('.card__trash');
 
     this.#cardTemplatePhoto.src = this.#link;
     this.#cardTemplatePhoto.alt = this.#name;
@@ -49,27 +51,42 @@ export class Card {
     }
   }
 
-  #setEventListeners(evt){
-    this.#cardTemplateLikeButton.addEventListener('click', evt => {
-      this.#handleLikeButton(this, this.#cardId, this.#cardTemplateLikeButton, this.#cardTemplateLikeCounter); 
+  #setEventListeners(){
+    this.#cardTemplateLikeButton.addEventListener('click', () => {
+      this.#handleLikeButton(this, this.#cardId, this.#cardTemplateLikeButton.classList.contains('card__like_active')); 
     });
     // обработчик для открытия попапа 
-    this.#cardTemplatePhoto.addEventListener('click', evt => {
+    this.#cardTemplatePhoto.addEventListener('click', () => {
       this.#handleCardClick(this.#name, this.#link);
     });
+
+    if (this.#ownerId != this.#profileUserId) {
+      this.#cardTemplateDeleteIcon.classList.add('card__trash_hidden');
+    }
+    else {
+      this.#cardTemplateDeleteIcon.addEventListener('click', (evt) => {
+        this.#handleDeleteIcon(this, this.#cardElement, this.#cardId);
+      });
+    }
   }
+
   updateLikeButtonStatus(data){
     this.#cardTemplateLikeButton.classList.toggle('card__like_active')
     this.#cardTemplateLikeCounter.textContent = data.likes.length;
+    if(this.#cardTemplateLikeCounter.textContent === '0'){
+      this.#cardTemplateLikeCounter.classList.add('card__like-counter_hidden');
+    }
+    else this.#cardTemplateLikeCounter.classList.remove('card__like-counter_hidden');
   }
+
   deletedCard(cardItemContainer){
     cardItemContainer.remove();
     cardItemContainer = '';
   }
+
   generate() {
     this.#cardElement = this.#getTemplate();
     this.#setTemplateData();
-    this.#handleDeleteIcon(this, this.#cardId, this.#ownerId, this.#cardElement.querySelector('.card__trash'));
     this.#setEventListeners(); 
     return this.#cardElement;
   }

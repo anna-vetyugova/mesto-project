@@ -12,8 +12,10 @@ import { PopupWithConfirm } from './PopupWithConfirm.js';
 
 export const api = new Api(config);
 const sectionInstance = new Section(renderCard, '.elements__photo-grid');
+
+
 function renderCard( data, position ) {
-  const cardElement = new Card( data, profileName.dataset.id, handleLikeButton, handleCardClick, handleDeleteIcon, cardTemplate ).generate();
+  const cardElement = new Card( data, profileName.dataset.id, handleCardClick, handleLikeButton, handleDeleteIcon, cardTemplate ).generate();
   sectionInstance.addItem(cardElement, position);
 }
 
@@ -32,8 +34,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
   console.error(`Ошибка: ${error}`);
 });
 
-function handleFormSubmit(request, popupWithFormElement, evt){
-  const submitButton = evt.submitter;
+function handleFormSubmit(request, popupWithFormElement, submitButton){
   const initialText = submitButton.textContent;
   popupWithFormElement.renderLoading(true, submitButton, initialText);
   request()
@@ -52,8 +53,8 @@ const popupProfileEditForm = new PopupWithForm(popupProfileEdit, submitFormCardE
 popupProfileEditForm.setEventListeners();
 profileEditButton.addEventListener('click', () => {
   const userData = userInfo.getUserInfo();
-  newProfileName.setAttribute('value', userData.name);
-  newProfileJob.setAttribute('value', userData.about);
+  newProfileName.value = userData.name;
+  newProfileJob.value = userData.about;
   popupProfileEditForm.openPopup();
   editProfileFormValidator.updateValidation();
 });
@@ -79,9 +80,8 @@ cardAddButton.addEventListener('click', () => {
 });
 function submitFormCardAdd({ placeName, placeLink }, evt) {
   function makeRequest(){
-    return api.addCard(placeName, placeLink).then((userData) => {
-      const cardElement = new Card( { name: userData.name, link: userData.link, likes: 0, owner: {_id : profileName.dataset.id}, _id: userData._id } , profileName.dataset.id, handleLikeButton, handleCardClick, handleDeleteIcon, cardTemplate ).generate();
-      sectionInstance.addItem(cardElement, "prepend");
+    return api.addCard(placeName, placeLink).then((cardData) => {
+      renderCard(cardData, "prepend");
     });
   }
   handleFormSubmit(makeRequest, popupCardAddForm, evt);
@@ -108,24 +108,10 @@ export function submitFormAvatarUpdate({ avatarLink }, evt) {
 };
 
 const popupWithImage = new PopupWithImage(popupCardShow);
+popupWithImage.setEventListeners();
 export function handleCardClick(cardName, cardLink){
   popupWithImage.openPopup(cardName, cardLink);
-  popupWithImage.setEventListeners();
 }
-export function handleLikeButton(cardItem, cardId, likeButton, likeCounter) { 
-  const likeButtonStatus = likeButton.classList.contains('card__like_active') ? api.deleteLike(cardId) : api.addLike(cardId);
-  likeButtonStatus
-    .then((data) => {
-      cardItem.updateLikeButtonStatus(data);
-      if(likeCounter.textContent === '0'){
-        likeCounter.classList.add('card__like-counter_hidden');
-      }
-      else likeCounter.classList.remove('card__like-counter_hidden');
-    })
-    .catch((error) => {
-      console.error(`Ошибка: ${error}`);
-    });
-  };
 
 export function handleCardDelete(cardItem, cardItemContainer, cardId){
   api.deleteCard(cardId)
@@ -138,19 +124,24 @@ export function handleCardDelete(cardItem, cardItemContainer, cardId){
     });
 }
 
+function handleLikeButton(cardItem, cardId, likeButtonState){
+  const likeButtonStatus = likeButtonState
+    ? api.deleteLike(cardId) 
+    : api.addLike(cardId);
+  likeButtonStatus
+  .then((data) => {
+    cardItem.updateLikeButtonStatus(data);
+  })
+  .catch((error) => {
+    console.error(`Ошибка: ${error}`);
+  });
+}
+
 const popupCardDeleteConfirm = new PopupWithConfirm(popupCardDelete, handleCardDelete, '.popup__form-button');
 popupCardDeleteConfirm.setEventListeners();
 
-export function handleDeleteIcon(cardItem, cardElementId, cardOwnerId, cardDeleteIcon){
-  if (cardOwnerId != profileName.dataset.id) {
-    cardDeleteIcon.classList.add('card__trash_hidden');
-  }
-  else {
-    cardDeleteIcon.addEventListener('click', (evt) => {
-      const cardItemContainer = evt.target.closest('li');
-      popupCardDeleteConfirm.openPopup(cardItem, cardItemContainer, cardElementId);
-    });
-  }
+function handleDeleteIcon(cardItem, cardItemContainer, cardId){
+  popupCardDeleteConfirm.openPopup(cardItem, cardItemContainer, cardId);
 }
 
 const cardAddFormValidator = new FormValidator(validationObject, formCardAdd);
