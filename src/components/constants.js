@@ -28,12 +28,10 @@ const placeName = formCardAdd.querySelector('.popup__form-field_place_name');
 const placeLink = formCardAdd.querySelector('.popup__form-field_place_link');
 
 const cardsList = page.querySelector('.elements__photo-grid');
-const cardTemplate = document.querySelector('#card').content;
+const cardTemplate = document.querySelector('#card');
 
 const popupCardShowImage = popupCardShow.querySelector('.popup__image');
 const popupCardShowImageCaption = popupCardShow.querySelector('.popup__caption');
-
-const inactiveButtonClass = 'popup__form-button_disabled';
 
 const validationObject = {
   formSelector: '.popup__form',
@@ -47,4 +45,13 @@ const validationObject = {
 const cohortId = 'plus-cohort-27';
 const token = '3bba9d1b-7b3a-41e6-ab4e-3983a20dd76a';
 
-export { page, popupProfileEdit, popupCardAdd, popupCardShow, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink, cardsList, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileAvatar, inactiveButtonClass, validationObject, cohortId, popupCardDelete, confirmButton, token };
+const config = {
+  baseUrl: `https://nomoreparties.co/v1/${cohortId}/`,
+  headers: {
+    authorization: `${token}`,
+    'Content-Type': 'application/json'
+  }
+};
+
+
+export { popupProfileEdit, popupCardAdd, popupCardShow, popupAvatarUpdate, formEditProfile, formCardAdd, formAvatarUpdate, profileEditButton, cardAddButton, avatarUpdateButton, closePopupButtons, profileName, profileJob, newProfileName, newProfileJob, placeName, placeLink, cardsList, cardTemplate, popupCardShowImage, popupCardShowImageCaption, profileAvatar, validationObject, popupCardDelete, confirmButton, config };
